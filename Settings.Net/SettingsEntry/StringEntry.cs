@@ -28,6 +28,6 @@ namespace Settings.Net.SettingsEntry {
         /// <summary>
         /// The value of the entry.
         /// </summary>
-        public string Value { get; set; }
+        internal string Value { get; set; }
     }
 }

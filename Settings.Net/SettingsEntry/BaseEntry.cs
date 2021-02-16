@@ -11,5 +11,16 @@
         /// A descriptive line of this entry. Description is optional.
         /// </summary>
         public abstract string Description { get; set; }
+
+        /// <summary>
+        /// Using these chars for ID names is illegal and exception will be thrown.
+        /// </summary>
+        internal static readonly char[] InvalidIdChars = {'.'};
+
+        /// <summary>
+        /// Gets the list of chars that are illegal to use for an ID name.
+        /// </summary>
+        /// <returns>List of invalid ID chars.</returns>
+        public static char[] GetInvalidIdChars() => InvalidIdChars;
     }
 }
