@@ -18,6 +18,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
 
+
   build-windows:
     
     runs-on: windows-latest
@@ -33,6 +34,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
  
+ 
   build-macos:
 
     runs-on: macos-latest
@@ -44,5 +46,6 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Restore dependencies
+      run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
