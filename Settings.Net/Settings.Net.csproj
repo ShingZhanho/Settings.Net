@@ -11,6 +11,13 @@
         <PackageProjectUrl>https://github.com/ShingZhanho/settings-dot-net</PackageProjectUrl>
         <RepositoryUrl>https://github.com/ShingZhanho/settings-dot-net</RepositoryUrl>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
+            <!-- This is to allow unit tests. -->
+            <_Parameter1>$(AssemblyName).Tests</_Parameter1>
+        </AssemblyAttribute>
+    </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
