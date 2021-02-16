@@ -2,6 +2,14 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <AssemblyVersion>0.1.0.0</AssemblyVersion>
+        <FileVersion>0.1.0.0</FileVersion>
+        <InformationalVersion>v0.1.0.0-alpha.1</InformationalVersion>
+        <PackageVersion>0.1.0.0</PackageVersion>
+        <Authors>ShingZhanho</Authors>
+        <Description>An easy-to-use .NET library for accessing and storing settings and configurations.</Description>
+        <PackageProjectUrl>https://github.com/ShingZhanho/settings-dot-net</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/ShingZhanho/settings-dot-net</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
