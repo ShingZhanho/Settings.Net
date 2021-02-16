@@ -10,6 +10,6 @@
         /// <summary>
         /// A descriptive line of this entry. Description is optional.
         /// </summary>
-        public abstract string Description { get; }
+        public abstract string Description { get; set; }
     }
 }

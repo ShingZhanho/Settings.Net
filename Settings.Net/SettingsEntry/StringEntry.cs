@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
 namespace Settings.Net.SettingsEntry {
     /// <summary>
@@ -17,16 +16,17 @@ namespace Settings.Net.SettingsEntry {
         /// <summary>
         /// Initializes a new StringEntry object.
         /// </summary>
-        /// <param name="ID">The ID of the new entry.</param>
+        /// <param name="id">The ID of the new entry.</param>
         /// <param name="value">The value of the new entry.</param>
-        internal StringEntry(string ID, string value) {
-            
+        internal StringEntry(string id, string value) {
+            ID = id;
+            Value = value;
         }
         
         public override string ID { get; }
-        public override string Description { get; }
+        public override string Description { get; set; }
         /// <summary>
-        /// The value of the entry
+        /// The value of the entry.
         /// </summary>
         public string Value { get; set; }
     }
