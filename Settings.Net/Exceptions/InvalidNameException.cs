@@ -3,6 +3,10 @@ using System;
 using System.IO;
 
 namespace Settings.Net.Exceptions {
+    /// <summary>
+    /// Throw if the ID of an entry contains invalid characters.
+    /// Invalid chars can be retrieved by calling <see cref="SettingsEntry.BaseEntry.GetInvalidIdChars"/>.
+    /// </summary>
     [Serializable]
     public class InvalidNameException : Exception {
 
@@ -20,10 +24,10 @@ namespace Settings.Net.Exceptions {
 
         public override string Message {
             get {
-                var s = base.Message;
+                var m = base.Message;
                 if (!string.IsNullOrEmpty(_invalidName))
-                    s += $" Name \"{_invalidName}\" is invalid.";
-                return s;
+                    m += $" Name \"{_invalidName}\" is invalid.";
+                return m;
             }
         }
     }
