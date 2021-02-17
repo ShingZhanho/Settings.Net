@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Settings.Net\Settings.Net.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="SettingsEntry" />
+    </ItemGroup>
+
 </Project>

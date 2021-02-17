@@ -1,5 +1,8 @@
-﻿namespace Settings.Net.SettingsEntry {
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace Settings.Net.SettingsEntry {
     /// <summary> A base class for settings entry. This class is abstract and shall not be used in your code. </summary>
+    [ExcludeFromCodeCoverage]
     public abstract class BaseEntry {
         /// <summary> The ID of the entry. The ID is unique under an entry group. </summary>
         public abstract string ID { get; }
