@@ -17,6 +17,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: UbuntuBuild
+        path: .
 
 
   build-windows:
@@ -33,6 +38,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: WindowsBuild
+        path: .
  
  
   build-macos:
@@ -49,3 +59,44 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
+    - name: Upload build artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: MacOSBuild
+        path: .
+
+
+  test-ubuntu:
+    
+    runs-on: ubuntu-latest
+    needs: build-ubuntu
+    
+    steps:
+    - name: Download built results
+      uses: actions/download-artifact@v2
+      with:
+        name: UbuntuBuild
+  
+  
+  test-windows:
+  
+    runs-on: windows-latest
+    needs: build-windows
+    
+    steps:
+    - name: Download built results
+      uses: actions/download-artifact@v2
+      with:
+        name: WindowsBuild
+  
+  
+  test-macos:
+  
+    runs-on: macos-latest
+    needs: build-macos
+    
+    steps:
+    - name: Download built results
+      uses: actions/download-artifact@v2
+      with:
+        name: MacOSBuild
