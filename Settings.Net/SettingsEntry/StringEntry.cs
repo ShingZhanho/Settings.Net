@@ -21,6 +21,8 @@ namespace Settings.Net.SettingsEntry {
         /// <param name="id">The ID of the new entry.</param>
         /// <param name="value">The value of the new entry.</param>
         internal StringEntry(string id, string value) {
+            if (string.IsNullOrEmpty(id))
+                throw new ArgumentNullException(nameof(id), "ID cannot be null or empty.");
             // Check for illegal chars in the id
             if (id.IndexOfAny(InvalidIdChars) == -1) {
                 ID = id;

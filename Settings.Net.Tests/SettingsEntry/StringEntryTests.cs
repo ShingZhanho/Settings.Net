@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using Settings.Net.SettingsEntry;
 
 namespace Settings.Net.Tests.SettingsEntry {
@@ -15,6 +16,15 @@ namespace Settings.Net.Tests.SettingsEntry {
             Assert.That(entry.ID, Is.EqualTo(id));
             Assert.That(entry.Value, Is.EqualTo(value));
             Assert.That(entry.Description, Is.EqualTo(desc));
+        }
+
+        [TestCase(null, null, null)]
+        [TestCase("", null, null)]
+        public void ConstructNewEntry_NullId_ArgNullException(string id, string value, string desc) {
+            // Assert
+            Assert.Throws(typeof(ArgumentNullException), delegate {
+                var entry = new StringEntry(id, value) {Description = desc};
+            });
         }
     }
 }
