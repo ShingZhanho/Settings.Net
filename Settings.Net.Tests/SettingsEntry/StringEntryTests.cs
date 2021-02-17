@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using Settings.Net.Exceptions;
 using Settings.Net.SettingsEntry;
 
 namespace Settings.Net.Tests.SettingsEntry {
@@ -18,13 +19,15 @@ namespace Settings.Net.Tests.SettingsEntry {
             Assert.That(entry.Description, Is.EqualTo(desc));
         }
 
-        [TestCase(null, null, null)]
-        [TestCase("", null, null)]
-        public void ConstructNewEntry_NullId_ArgNullException(string id, string value, string desc) {
-            // Assert
-            Assert.Throws(typeof(ArgumentNullException), delegate {
-                var entry = new StringEntry(id, value) {Description = desc};
-            });
+        [TestCase(null, null)]
+        [TestCase("", null)]
+        public void ConstructNewEntry_NullId_ArgNullException(string id, string value) {
+            Assert.Throws(typeof(ArgumentNullException), () => { _ = new StringEntry(id, value); });
+        }
+
+        [TestCase("Invalid.Name", "some value")]
+        public void ConstructNewEntry_IllegalChars_InvalidNameException(string id, string value) {
+            Assert.Throws(typeof(InvalidNameException), () => { _ = new StringEntry(id, value); });
         }
     }
 }
