@@ -6,10 +6,15 @@ using Settings.Net.Exceptions;
 
 namespace Settings.Net.SettingsEntry {
     /// <summary> Represents an entry with string value. </summary>
-    public class StringEntry : BaseEntry {
+    public sealed class StringEntry : BaseEntry {
         /// <summary> Initializes a StringEntry object from existing JSON data. </summary>
         /// <param name="jToken">The existing JToken</param>
         internal StringEntry(JToken jToken) {
+            EnsureJsonState(jToken);
+
+            ID = ((JObject) jToken).Properties().ToList()[0].Name;
+            Value = jToken["value"].ToString();
+            Description = jToken["desc"].ToString();
         }
 
         /// <summary> Initializes a new StringEntry object. </summary>
