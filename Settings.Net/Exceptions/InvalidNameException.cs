@@ -6,7 +6,7 @@ namespace Settings.Net.Exceptions {
     [Serializable]
     public class InvalidNameException : Exception {
 
-        private string _invalidName;
+        private string? _invalidName;
         
         public InvalidNameException(){ }
 
