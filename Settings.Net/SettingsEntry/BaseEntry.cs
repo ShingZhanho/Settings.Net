@@ -16,7 +16,7 @@ namespace Settings.Net.SettingsEntry {
         /// <summary> Checks if the given ID is a valid ID.</summary>
         /// <param name="id">The ID to check.</param>
         /// <returns>true if valid, false instead.</returns>
-        internal static bool IdIsValid(string id) => id.IndexOfAny(InvalidIdChars) != -1;
+        internal static bool IdIsValid(string id) => id.IndexOfAny(InvalidIdChars) == -1;
 
         /// <summary> Gets the list of chars that are illegal to use for an ID name. </summary>
         /// <returns>List of invalid ID chars.</returns>

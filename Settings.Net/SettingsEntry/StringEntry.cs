@@ -22,7 +22,7 @@ namespace Settings.Net.SettingsEntry {
         /// <param name="value">The value of the new entry.</param>
         internal StringEntry(string id, string value) {
             // Check for illegal chars in the id
-            if (id.IndexOfAny(InvalidIdChars) != -1) {
+            if (id.IndexOfAny(InvalidIdChars) == -1) {
                 ID = id;
             } else {
                 throw new InvalidNameException(id,
