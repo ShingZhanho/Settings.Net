@@ -81,8 +81,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Run tests
-      run: dotnet test --no-restore
-      working-directory: ./settings-dot-net
+      run: dotnet test ./settings-dot-net --no-restore --no-build
   
   
   test-windows:
@@ -100,8 +99,7 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Run tests
-      run: dotnet test --no-restore
-      working-directory: ./settings-dot-net
+      run: dotnet test ./settings-dot-net --no-restore --no-build
   
   
   test-macos:
@@ -119,5 +117,4 @@ jobs:
       with:
         dotnet-version: 5.0.x
     - name: Run tests
-      run: dotnet test --no-restore
-      working-directory: ./settings-dot-net
+      run: dotnet test ./settings-dot-net --no-restore --no-build
