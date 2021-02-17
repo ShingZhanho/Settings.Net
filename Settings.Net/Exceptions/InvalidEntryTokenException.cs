@@ -6,15 +6,15 @@ namespace Settings.Net.Exceptions {
     /// Throw if essential keys do not exist in the JSON.
     /// </summary>
     [Serializable]
-    public class InvalidEntryToken : Exception {
+    public class InvalidEntryTokenException : Exception {
 
         private string? _missingKey;
         
-        public InvalidEntryToken() { }
+        public InvalidEntryTokenException() { }
 
-        public InvalidEntryToken(string? missingKey) => _missingKey = missingKey;
+        public InvalidEntryTokenException(string? missingKey) => _missingKey = missingKey;
 
-        public InvalidEntryToken(string? missingKey, string messages) : base(messages) => _missingKey = missingKey;
+        public InvalidEntryTokenException(string? missingKey, string messages) : base(messages) => _missingKey = missingKey;
 
         public override string Message {
             get {
