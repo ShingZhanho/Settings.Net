@@ -28,7 +28,7 @@ namespace Settings.Net.SettingsEntry {
                 ID = id;
             } else {
                 throw new InvalidNameException(id,
-                    $"An ID cannot contain the character '{InvalidIdChars[id.IndexOfAny(InvalidIdChars)]}'");
+                    $"An ID cannot contain the character '{GetInvalidIdCharsInString(id)}'");
             }
             Value = value;
         }
@@ -46,7 +46,7 @@ namespace Settings.Net.SettingsEntry {
             var id = ((JObject) jToken).Properties().ToList()[0].Name;
             if (!IdIsValid(id))
                 throw new InvalidNameException(id,
-                    $"An ID cannot contain the character '{InvalidIdChars[id.IndexOfAny(InvalidIdChars)]}");
+                    $"An ID cannot contain the character '{GetInvalidIdCharsInString(id)}");
             // Check entry type
             try {
                 if (jToken["type"].ToString() != Constants.EntryTypeFlags.StringEntry)

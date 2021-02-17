@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Settings.Net.SettingsEntry {
     /// <summary> A base class for settings entry. This class is abstract and shall not be used in your code. </summary>
@@ -20,6 +22,6 @@ namespace Settings.Net.SettingsEntry {
 
         /// <summary> Gets the list of chars that are illegal to use for an ID name. </summary>
         /// <returns>List of invalid ID chars.</returns>
-        public static char[] GetInvalidIdChars() => InvalidIdChars;
+        public static char[] GetInvalidIdCharsInString(string str) => str.Where(character => InvalidIdChars.Contains(character)).ToArray();
     }
 }
