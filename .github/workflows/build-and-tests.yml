@@ -76,6 +76,13 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: UbuntuBuild
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Run tests
+      run: dotnet test --no-restore
+      working-directory: ./settings-dot-net
   
   
   test-windows:
@@ -88,6 +95,13 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: WindowsBuild
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Run tests
+      run: dotnet test --no-restore
+      working-directory: ./settings-dot-net
   
   
   test-macos:
@@ -100,3 +114,10 @@ jobs:
       uses: actions/download-artifact@v2
       with:
         name: MacOSBuild
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Run tests
+      run: dotnet test --no-restore
+      working-directory: ./settings-dot-net
