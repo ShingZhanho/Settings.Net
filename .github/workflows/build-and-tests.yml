@@ -1,9 +1,9 @@
-name: Build & Test
+name: Build
 
 on: [push]
 
 jobs:
-  build-ubuntu:
+  ubuntu:
 
     runs-on: ubuntu-latest
     if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
@@ -18,14 +18,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: UbuntuBuild
-        path: .
+    - name: Run tests
+      run: dotnet test --no-build normal
 
 
-  build-windows:
+  windows:
     
     runs-on: windows-latest
     if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
@@ -40,14 +37,11 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: WindowsBuild
-        path: .
+    - name: Run tests
+      run: dotnet test --no-build normal
  
  
-  build-macos:
+  macos:
 
     runs-on: macos-latest
     if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
@@ -62,62 +56,5 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Upload build artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: MacOSBuild
-        path: .
-
-
-  test-ubuntu:
-    
-    runs-on: ubuntu-latest
-    needs: build-ubuntu
-    
-    steps:
-    - name: Download built results
-      uses: actions/download-artifact@v2
-      with:
-        name: UbuntuBuild
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
     - name: Run tests
-      run: dotnet test
-  
-  
-  test-windows:
-  
-    runs-on: windows-latest
-    needs: build-windows
-    
-    steps:
-    - name: Download built results
-      uses: actions/download-artifact@v2
-      with:
-        name: WindowsBuild
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Run tests
-      run: dotnet test
-  
-  
-  test-macos:
-  
-    runs-on: macos-latest
-    needs: build-macos
-    
-    steps:
-    - name: Download built results
-      uses: actions/download-artifact@v2
-      with:
-        name: MacOSBuild
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Run tests
-      run: dotnet test
+      run: dotnet test --no-build normal
