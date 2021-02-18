@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="./Media/Icon.png" alt="Project icon" height="100px"/>
+    <img src="./Media/Icon.png" alt="Project icon" height="200px"/>
     <br>
     <strong>Settings.Net</strong>
     <br>
