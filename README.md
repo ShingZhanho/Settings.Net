@@ -7,7 +7,7 @@
 </p>
 <hr>
 <p align="center">
-<img src="https://github.com/ShingZhanho/settings-dot-net/workflows/Build%20&amp;%20Test/badge.svg" alt="Build &amp; Test"></p>
+<img src="https://github.com/ShingZhanho/settings-dot-net/workflows/Build/badge.svg" alt="Build Status"></p>
 
 ## Get started
 Under development...
