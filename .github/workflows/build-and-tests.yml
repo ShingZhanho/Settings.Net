@@ -19,7 +19,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Run tests
-      run: dotnet test --no-build normal
+      run: dotnet test --no-build
 
 
   windows:
@@ -38,7 +38,7 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Run tests
-      run: dotnet test --no-build normal
+      run: dotnet test --no-build
  
  
   macos:
@@ -57,4 +57,4 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Run tests
-      run: dotnet test --no-build normal
+      run: dotnet test --no-build
