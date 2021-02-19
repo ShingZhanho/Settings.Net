@@ -7,9 +7,11 @@ on:
     branches-ignore: [ docs/* ]
   
 jobs:
-  code-coverage:
+  code-coverage-beta:
     
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
+    env:
+      CODECOV_UPLOAD_TOKEN: 3b2af18f-3772-424a-8c52-e6bdcd6e564c
     
     steps:
     - uses: actions/checkout@v2
@@ -17,11 +19,15 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - name: Install OpenCover.Portable
-      run: choco install opencover.portable
-    - name: Generate report
-      run: OpenCover.Console.exe -register -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[Settings.Net*]* -[Settings.Net.Tests*]*" -excludebyattribute:*.ExcludeFromCodeCoverage* -output:".\Code-Cov.xml" -oldstyle
-    - name: Install codecov
-      run: choco install codecov
+    - name: Restore Packages
+      run: dotnet restore
+    - name: Add Coverlet.MSBuild package for testing
+      run: dotnet add package coverlet.msbuild
+    - name: Run tests
+      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput:'./Code-Cov.xml'
+    - name: Download report upload script
+      run: curl -s https://codecov.io/bash > codecov
+    - name: Add execution permission
+      run: chmod +x codecov
     - name: Upload report
-      run: codecov.exe -f "./Code-Cov.xml"
+      run: ./codecov -f 'Code-Cov.xml' -t $CODECOV_UPLOAD_TOKEN
