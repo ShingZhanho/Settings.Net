@@ -41,8 +41,6 @@ namespace Settings.Net.SettingsEntry {
 
         // Check that the JToken passed is correct
         private static void EnsureJsonState(JToken jToken) {
-            // Check for null
-            if (jToken is null) throw new ArgumentNullException(nameof(jToken), "jToken cannot be null.");
             // Check the ID of entry
             var id = ((JObject) jToken).Properties().ToList()[0].Name;
             if (!IdIsValid(id))
@@ -58,9 +56,9 @@ namespace Settings.Net.SettingsEntry {
             }
             // Check entry value
             try {
-                if (jToken[id]["value"].Type != JTokenType.String && jToken["value"].Type != JTokenType.Null)
+                if (jToken[id]["value"].Type != JTokenType.String && jToken[id]["value"].Type != JTokenType.Null)
                     throw new InvalidEntryValueException(
-                        $"{JTokenType.String}' or '{JTokenType.Null}", jToken["value"].Type.ToString(), 
+                        $"{JTokenType.String}' or '{JTokenType.Null}", jToken[id]["value"].Type.ToString(), 
                         "The value's type does not match the object's type.");
             } catch (NullReferenceException) {
                 throw new InvalidEntryTokenException("value",
