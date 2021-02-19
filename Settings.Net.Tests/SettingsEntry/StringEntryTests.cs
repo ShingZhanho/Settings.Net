@@ -82,6 +82,26 @@ namespace Settings.Net.Tests.SettingsEntry {
             Assert.That(exception, Is.TypeOf(typeof(EntryTypeNotMatchException)));
         }
 
+        [TestCase(StringEntryJsonSource.InvalidValueType_IntType)]
+        [TestCase(StringEntryJsonSource.InvalidValueType_BoolType)]
+        public void ConstructJsonEntry_ValueTypeNotMatch_InvalidEntryValueException(string json) {
+            // Act
+            var exception = GetExceptionFromConstructor(json, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(InvalidEntryValueException)));
+        }
+        
+        [TestCase(StringEntryJsonSource.MissingTypeKey)]
+        [TestCase(StringEntryJsonSource.MissingValueKey)]
+        public void ConstructJsonEntry_MissingKeys_InvalidEntryTokenException(string json) {
+            // Act
+            var exception = GetExceptionFromConstructor(json, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(InvalidEntryTokenException)));
+        }
+
         private static Exception GetExceptionFromConstructor(string json, out StringEntry result) {
             try {
                 result = new StringEntry(JToken.Parse(json));
@@ -116,6 +136,14 @@ namespace Settings.Net.Tests.SettingsEntry {
                 @"{'IntEntry':{'type':'Settings.IntEntry','desc':'An int entry','value':15}}";
             public const string InvalidType_BoolType = 
                 @"{'BoolEntry':{'type':'Settings.BoolEntry','desc':'An bool entry','value':true}}";
+            public const string InvalidValueType_IntType =
+                @"{'StringEntryWithIntValue':{'type':'Settings.StringEntry','desc':'A string entry with int value.','value':15}}";
+            public const string InvalidValueType_BoolType =
+                @"{'StringEntryWithBoolValue':{'type':'Settings.StringEntry','desc':'A string entry with bool value.','value':false}}";
+            public const string MissingTypeKey =
+                @"{'MissingTypeKey':{'desc':'A string entry with int value.','value':'something'}}";
+            public const string MissingValueKey =
+                @"{'MissingTypeKey':{'type':'Settings.StringEntry','desc':'A string entry with int value.'}}";
         }
     }
 }
