@@ -7,11 +7,12 @@ on:
     branches-ignore: [ docs/* ]
   
 jobs:
-  code-coverage-beta:
+  code-coverage:
     
     runs-on: ubuntu-latest
     env:
       CODECOV_UPLOAD_TOKEN: 3b2af18f-3772-424a-8c52-e6bdcd6e564c
+    if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
     
     steps:
     - uses: actions/checkout@v2
