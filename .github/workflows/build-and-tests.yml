@@ -25,7 +25,9 @@ jobs:
   windows:
     
     runs-on: windows-latest
-    if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
+    # Windows test is temporarily disabled due to occasional fails
+    # while running "dotnet restore".
+    if: ${{ false }}
     
     steps:
     - uses: actions/checkout@v2
