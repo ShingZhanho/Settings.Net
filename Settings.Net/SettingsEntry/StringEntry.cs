@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Settings.Net.Exceptions;
@@ -13,8 +14,8 @@ namespace Settings.Net.SettingsEntry {
             EnsureJsonState(jToken);
 
             ID = ((JObject) jToken).Properties().ToList()[0].Name;
-            Value = jToken["value"].ToString();
-            Description = jToken["desc"].ToString();
+            Value = jToken[ID]["value"].ToString();
+            Description = jToken[ID]["desc"].ToString();
         }
 
         /// <summary> Initializes a new StringEntry object. </summary>
@@ -49,21 +50,21 @@ namespace Settings.Net.SettingsEntry {
                     $"An ID cannot contain the character '{GetInvalidIdCharsInString(id)}");
             // Check entry type
             try {
-                if (jToken["type"].ToString() != Constants.EntryTypeFlags.StringEntry)
+                if (jToken[id]["type"].ToString() != Constants.EntryTypeFlags.StringEntry)
                     throw new EntryTypeNotMatchException(Constants.EntryTypeFlags.StringEntry,
-                        jToken["type"].ToString(), "Type of entry does not match");
+                        jToken[id]["type"].ToString(), "Type of entry does not match.");
             } catch (NullReferenceException) {
-                throw new InvalidEntryTokenException("type", "Essential key is missing in JSON");
+                throw new InvalidEntryTokenException("type", "Essential key is missing in JSON.");
             }
             // Check entry value
             try {
-                if (jToken["value"].Type != JTokenType.String && jToken["value"].Type != JTokenType.Null)
+                if (jToken[id]["value"].Type != JTokenType.String && jToken["value"].Type != JTokenType.Null)
                     throw new InvalidEntryValueException(
                         $"{JTokenType.String}' or '{JTokenType.Null}", jToken["value"].Type.ToString(), 
                         "The value's type does not match the object's type.");
             } catch (NullReferenceException) {
                 throw new InvalidEntryTokenException("value",
-                    "Essential key is missing in JSON");
+                    "Essential key is missing in JSON.");
             }
         }
     }

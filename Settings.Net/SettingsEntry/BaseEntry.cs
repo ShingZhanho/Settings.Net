@@ -13,7 +13,7 @@ namespace Settings.Net.SettingsEntry {
         public abstract string Description { get; set; }
 
         /// <summary>Using these chars for ID names is illegal and exception will be thrown.</summary>
-        internal static readonly char[] InvalidIdChars = {'.'};
+        internal static readonly char[] InvalidIdChars = {'.', ' '};
 
         /// <summary> Checks if the given ID is a valid ID.</summary>
         /// <param name="id">The ID to check.</param>

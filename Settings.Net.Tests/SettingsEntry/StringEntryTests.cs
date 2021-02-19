@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Linq;
+using System.Reflection.Metadata;
 using NUnit.Framework;
 using Settings.Net.Exceptions;
 using Settings.Net.SettingsEntry;
+using Newtonsoft.Json.Linq;
 
 namespace Settings.Net.Tests.SettingsEntry {
     [TestFixture]
@@ -11,23 +14,108 @@ namespace Settings.Net.Tests.SettingsEntry {
         [TestCase("StringEntry3", null, null)]
         public void ConstructNewEntry_ValidParameters_Successful(string id, string value, string desc) {
             // Act
-            var entry = new StringEntry(id, value) {Description = desc};
+            var exception = GetExceptionFromConstructor(id, value, out var result);
+            result.Description = desc;
             
             // Assert
-            Assert.That(entry.ID, Is.EqualTo(id));
-            Assert.That(entry.Value, Is.EqualTo(value));
-            Assert.That(entry.Description, Is.EqualTo(desc));
+            Assert.That(exception, Is.Null);
+            Assert.That(result.ID, Is.EqualTo(id));
+            Assert.That(result.Value, Is.EqualTo(value));
+            Assert.That(result.Description, Is.EqualTo(desc));
         }
 
         [TestCase(null, null)]
         [TestCase("", null)]
         public void ConstructNewEntry_NullId_ArgNullException(string id, string value) {
-            Assert.Throws(typeof(ArgumentNullException), () => { _ = new StringEntry(id, value); });
+            // Act
+            var exception = GetExceptionFromConstructor(id, value, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(ArgumentNullException)));
         }
 
         [TestCase("Invalid.Name", "some value")]
+        [TestCase("Another Invalid Name", "some value")]
         public void ConstructNewEntry_IllegalChars_InvalidNameException(string id, string value) {
-            Assert.Throws(typeof(InvalidNameException), () => { _ = new StringEntry(id, value); });
+            // Act
+            var exception = GetExceptionFromConstructor(id, value, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(InvalidNameException)));
+        }
+
+        [TestCase(StringEntryJsonSource.NormalEntry)]
+        public void ConstructJsonEntry_ValidData_Successful(string json) {
+            // Arrange
+            var jToken = JToken.Parse(json);
+            var entryID = ((JObject) jToken).Properties().ToList()[0].Name;
+            var entryDesc = jToken[entryID]["desc"]?.ToString();
+            var entryValue = jToken[entryID]["value"]?.ToString();
+            
+            // Act
+            var exception = GetExceptionFromConstructor(json, out var result);
+            
+            // Assert
+            Assert.That(exception, Is.Null);
+            Assert.That(result.ID, Is.EqualTo(entryID));
+            Assert.That(result.Description, Is.EqualTo(entryDesc));
+            Assert.That(result.Value, Is.EqualTo(entryValue));
+        }
+
+        [TestCase(StringEntryJsonSource.InvalidIdEntry1)]
+        [TestCase(StringEntryJsonSource.InvalidIdEntry2)]
+        public void ConstructJsonEntry_IllegalIdChars_InvalidNameException(string json) {
+            // Act
+            var exception = GetExceptionFromConstructor(json, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(InvalidNameException)));
+        }
+
+        [TestCase(StringEntryJsonSource.InvalidType_IntType)]
+        [TestCase(StringEntryJsonSource.InvalidType_BoolType)]
+        public void ConstructJsonEntry_TypeNotMatch_EntryTypeNotMatchException(string json) {
+            // Act
+            var exception = GetExceptionFromConstructor(json, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(EntryTypeNotMatchException)));
+        }
+
+        private static Exception GetExceptionFromConstructor(string json, out StringEntry result) {
+            try {
+                result = new StringEntry(JToken.Parse(json));
+            } catch (Exception e) {
+                result = null;
+                return e;
+            }
+            // Constructor succeeded
+            return null;
+        }
+        
+        private static Exception GetExceptionFromConstructor(string id, string value, out StringEntry result) {
+            try {
+                result = new StringEntry(id, value);
+            } catch (Exception e) {
+                result = null;
+                return e;
+            }
+            // Constructor succeeded
+            return null;
+        }
+
+        private static class StringEntryJsonSource {
+            // This class contains JSON data source for tests
+            public const string NormalEntry = 
+                @"{'EntryID':{'type':'Settings.StringEntry','desc':'A normal string entry','value':'value'}}";
+            public const string InvalidIdEntry1 =
+                @"{'Invalid.Entry':{'type':'Settings.StringEntry','desc':'Entry with invalid id name','value':'something'}}";
+            public const string InvalidIdEntry2 =
+                @"{'Invalid  Entry':{'type':'Settings.StringEntry','desc':'Entry with invalid id name','value':'something'}}";
+            public const string InvalidType_IntType =
+                @"{'IntEntry':{'type':'Settings.IntEntry','desc':'An int entry','value':15}}";
+            public const string InvalidType_BoolType = 
+                @"{'BoolEntry':{'type':'Settings.BoolEntry','desc':'An bool entry','value':true}}";
         }
     }
 }
