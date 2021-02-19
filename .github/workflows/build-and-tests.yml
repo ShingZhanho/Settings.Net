@@ -6,7 +6,7 @@ jobs:
   ubuntu:
 
     runs-on: ubuntu-latest
-    if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
+    if: ${{ ! contains(github.event.head_commit.message, 'skip@build.ubuntu') }}
 
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +25,7 @@ jobs:
   windows:
     
     runs-on: windows-latest
-    if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
+    if: ${{ ! contains(github.event.head_commit.message, 'skip@build.windows') }}
     
     steps:
     - uses: actions/checkout@v2
@@ -46,7 +46,7 @@ jobs:
   macos:
 
     runs-on: macos-latest
-    if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
+    if: ${{ ! contains(github.event.head_commit.message, 'skip@build.macos') }}
 
     steps:
     - uses: actions/checkout@v2
