@@ -7,7 +7,9 @@
 </p>
 <hr>
 <p align="center">
-<img src="https://github.com/ShingZhanho/settings-dot-net/workflows/Build/badge.svg" alt="Build Status"></p>
+<img src="https://github.com/ShingZhanho/settings-dot-net/workflows/Build/badge.svg" alt="Build Status">
+<a href="https://codecov.io/gh/ShingZhanho/settings-dot-net"><img src="https://codecov.io/gh/ShingZhanho/settings-dot-net/branch/master/graph/badge.svg?token=EIMZVKR3RL"/></a>
+    </p>
 
 ## Get started
 Under development...
