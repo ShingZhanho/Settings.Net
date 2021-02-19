@@ -25,9 +25,7 @@ jobs:
   windows:
     
     runs-on: windows-latest
-    # Windows test is temporarily disabled due to occasional fails
-    # while running "dotnet restore".
-    if: ${{ false }}
+    if: ${{ ! contains(github.event.head_commit.message, '?SKIP-ACTIONS') }}
     
     steps:
     - uses: actions/checkout@v2
@@ -35,6 +33,8 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    - name: Clean NuGet Cache
+      run: dotnet clean && dotnet nuget locals all --clear
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
