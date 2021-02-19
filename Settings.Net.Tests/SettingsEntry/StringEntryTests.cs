@@ -32,6 +32,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             
             // Assert
             Assert.That(exception, Is.TypeOf(typeof(ArgumentNullException)));
+            Console.WriteLine(exception.Message);
         }
 
         [TestCase("Invalid.Name", "some value")]
@@ -42,6 +43,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             
             // Assert
             Assert.That(exception, Is.TypeOf(typeof(InvalidNameException)));
+            Console.WriteLine(exception.Message);
         }
 
         [TestCase(StringEntryJsonSource.NormalEntry)]
@@ -70,6 +72,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             
             // Assert
             Assert.That(exception, Is.TypeOf(typeof(InvalidNameException)));
+            Console.WriteLine(exception.Message);
         }
 
         [TestCase(StringEntryJsonSource.InvalidType_IntType)]
@@ -80,6 +83,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             
             // Assert
             Assert.That(exception, Is.TypeOf(typeof(EntryTypeNotMatchException)));
+            Console.WriteLine(exception.Message);
         }
 
         [TestCase(StringEntryJsonSource.InvalidValueType_IntType)]
@@ -90,6 +94,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             
             // Assert
             Assert.That(exception, Is.TypeOf(typeof(InvalidEntryValueException)));
+            Console.WriteLine(exception.Message);
         }
         
         [TestCase(StringEntryJsonSource.MissingTypeKey)]
@@ -100,6 +105,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             
             // Assert
             Assert.That(exception, Is.TypeOf(typeof(InvalidEntryTokenException)));
+            Console.WriteLine(exception.Message);
         }
 
         private static Exception GetExceptionFromConstructor(string json, out StringEntry result) {

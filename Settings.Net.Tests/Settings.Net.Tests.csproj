@@ -17,8 +17,4 @@
       <ProjectReference Include="..\Settings.Net\Settings.Net.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ExceptionTests" />
-    </ItemGroup>
-
 </Project>
