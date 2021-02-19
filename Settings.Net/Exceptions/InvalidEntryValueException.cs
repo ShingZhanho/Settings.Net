@@ -7,11 +7,7 @@ namespace Settings.Net.Exceptions {
     /// </summary>
     [Serializable]
     public class InvalidEntryValueException : EntryTypeNotMatchException {
-        public InvalidEntryValueException() { }
-
-        public InvalidEntryValueException(string? expectedType, string? receivedType) : base(expectedType, receivedType) { }
-
-        public InvalidEntryValueException(string? expectedType, string? receivedType, string? messages) : base(
+        public InvalidEntryValueException(string? expectedType, string? receivedType, string? messages = null) : base(
             expectedType, receivedType, messages) { }
     }
 }

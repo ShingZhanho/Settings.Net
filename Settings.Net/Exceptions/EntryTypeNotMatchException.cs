@@ -9,14 +9,7 @@ namespace Settings.Net.Exceptions {
     public class EntryTypeNotMatchException : Exception {
         private string? _expectedType, _receivedType;
 
-        public EntryTypeNotMatchException() { }
-
-        public EntryTypeNotMatchException(string? expectedType, string? receivedType) {
-            _expectedType = expectedType;
-            _receivedType = receivedType;
-        }
-
-        public EntryTypeNotMatchException(string? expectedType, string? receivedType, string? messages) :
+        public EntryTypeNotMatchException(string? expectedType, string? receivedType, string? messages = null) :
             base(messages) {
             _expectedType = expectedType;
             _receivedType = receivedType;

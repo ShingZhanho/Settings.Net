@@ -9,12 +9,8 @@ namespace Settings.Net.Exceptions {
     public class InvalidEntryTokenException : Exception {
 
         private string? _missingKey;
-        
-        public InvalidEntryTokenException() { }
 
-        public InvalidEntryTokenException(string? missingKey) => _missingKey = missingKey;
-
-        public InvalidEntryTokenException(string? missingKey, string messages) : base(messages) => _missingKey = missingKey;
+        public InvalidEntryTokenException(string? missingKey, string? messages = null) : base(messages) => _missingKey = missingKey;
 
         public override string Message {
             get {

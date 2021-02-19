@@ -11,14 +11,8 @@ namespace Settings.Net.Exceptions {
     public class InvalidNameException : Exception {
 
         private string? _invalidName;
-        
-        public InvalidNameException(){ }
 
-        public InvalidNameException(string invalidName) {
-            _invalidName = invalidName;
-        }
-
-        public InvalidNameException(string? invalidName, string? messages) : base(messages){
+        public InvalidNameException(string? invalidName, string? messages = null) : base(messages){
             _invalidName = invalidName;
         }
 
