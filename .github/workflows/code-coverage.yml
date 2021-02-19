@@ -30,4 +30,4 @@ jobs:
     - name: Add execution permission
       run: chmod +x codecov
     - name: Upload report
-      run: ./codecov -f 'Code-Cov.xml' -t $CODECOV_UPLOAD_TOKEN
+      run: ./codecov -f './Settings.Net.Tests/Code-Cov.xml' -t $CODECOV_UPLOAD_TOKEN
