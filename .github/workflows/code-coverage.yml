@@ -1,0 +1,29 @@
+name: Code Coverage
+
+on:
+  push:
+    branches-ignore: [ docs/* ]
+  pull_request:
+    branches-ignore: [ docs/* ]
+  
+jobs:
+  code-coverage:
+    
+    runs-on: windows-latest
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 5.0.x
+    - name: Install dependencies
+      run: dotnet restore
+    - name: Install OpenCover.Portable
+      run: choco install opencover.portable
+    - name: Generate report
+      run: OpenCover.Console.exe -register -target:"C:/Program Files/dotnet/dotnet.exe" -targetargs:test -filter:"+[Settings.Net*]* -[Settings.Net.Tests*]*" -output:".\Code-Cov.xml" -oldstyle
+    - name: Install codecov
+      run: choco install codecov
+    - name: Upload report
+      run: codecov.exe -f "./Code-Cov.xml"
