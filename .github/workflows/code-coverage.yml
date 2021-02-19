@@ -24,7 +24,7 @@ jobs:
     - name: Add Coverlet.MSBuild package for testing
       run: dotnet add ./Settings.Net.Tests/Settings.Net.Tests.csproj package coverlet.msbuild
     - name: Run tests
-      run: dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput:\"./Code-Cov.xml\"
+      run: dotnet msbuild /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput:\"./Code-Cov.xml\"
     - name: Download report upload script
       run: curl -s https://codecov.io/bash > codecov
     - name: Add execution permission
