@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using Settings.Net.Exceptions;
@@ -37,7 +35,10 @@ namespace Settings.Net.SettingsEntry {
         public override string ID { get; }
         public override string Description { get; set; }
         /// <summary> The value of the entry. </summary>
-        internal string Value { get; set; }
+        public string Value { get; set; }
+
+        /// <summary>Returns the string of the value of this entry.</summary>
+        public override string ToString() => Value;
 
         // Check that the JToken passed is correct
         private static void EnsureJsonState(JToken jToken) {

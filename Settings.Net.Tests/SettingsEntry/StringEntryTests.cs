@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Reflection.Metadata;
 using NUnit.Framework;
 using Settings.Net.Exceptions;
 using Settings.Net.SettingsEntry;
@@ -21,6 +20,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             Assert.That(exception, Is.Null);
             Assert.That(result.ID, Is.EqualTo(id));
             Assert.That(result.Value, Is.EqualTo(value));
+            Assert.That(result.ToString(), Is.EqualTo(value));
             Assert.That(result.Description, Is.EqualTo(desc));
         }
 
@@ -62,6 +62,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             Assert.That(result.ID, Is.EqualTo(entryID));
             Assert.That(result.Description, Is.EqualTo(entryDesc));
             Assert.That(result.Value, Is.EqualTo(entryValue));
+            Assert.That(result.ToString(), Is.EqualTo(entryValue));
         }
 
         [TestCase(StringEntryJsonSource.InvalidIdEntry1)]
