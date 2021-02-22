@@ -46,7 +46,7 @@ namespace Settings.Net.SettingsEntry {
             var id = ((JObject) jToken).Properties().ToList()[0].Name;
             if (!IdIsValid(id))
                 throw new InvalidNameException(id,
-                    $"An ID cannot contain the character '{GetInvalidIdCharsInString(id)}");
+                    $"An ID cannot contain the character(s) '{GetInvalidIdCharsInString(id)}");
             // Check entry type
             try {
                 if (jToken[id]["type"].ToString() != Constants.EntryTypeFlags.StringEntry)

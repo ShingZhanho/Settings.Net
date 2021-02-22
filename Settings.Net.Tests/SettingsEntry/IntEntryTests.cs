@@ -8,9 +8,8 @@ using Newtonsoft.Json.Linq;
 namespace Settings.Net.Tests.SettingsEntry {
     [TestFixture]
     public class IntEntryTests {
-        [TestCase("IntEntry1", 123, "Description1")]
-        [TestCase("IntEntry2", 456, null)]
-        [TestCase("IntEntry3", null, null)]
+        [TestCase("IntEntry1", 123, "Description1"), TestCase("IntEntry2", 456, null),
+         TestCase("IntEntry3", null, null)]
         public void ConstructNewEntry_ValidParameters_Successful(string id, int value, string desc) {
             // Act
             var exception = GetExceptionFromConstructor(id, value, out var result);
@@ -46,6 +45,77 @@ namespace Settings.Net.Tests.SettingsEntry {
             Console.WriteLine(exception.Message);
         }
 
+        private static Exception GetExceptionFromConstructor(string json, out IntEntry result) {
+            try {
+                result = new IntEntry(JToken.Parse(json));
+            } catch (Exception e) {
+                result = null;
+                return e;
+            }
+            // Constructor succeeded
+            return null;
+        }
+
+        [TestCase(IntEntryJsonSource.NormalEntry)]
+        public void ConstructorJsonEntry_ValidData_Successful(string json) {
+            // Arrange
+            var jToken = JToken.Parse(json);
+            var entryId = ((JObject) jToken).Properties().ToList()[0].Name;
+            var entryDesc = jToken[entryId]["desc"].ToString();
+            var entryValue = int.Parse(jToken[entryId]["value"].ToString());
+            
+            // Act
+            var exception = GetExceptionFromConstructor(json, out var result);
+            
+            // Assert
+            Assert.That(exception, Is.Null);
+            Assert.That(result.ID, Is.EqualTo(entryId));
+            Assert.That(result.Description, Is.EqualTo(entryDesc));
+            Assert.That(result.Value, Is.EqualTo(entryValue));
+            Assert.That(result.ToString(), Is.EqualTo(entryValue.ToString()));
+        }
+
+        [TestCase(IntEntryJsonSource.InvalidIdEntry1), TestCase(IntEntryJsonSource.InvalidIdEntry2)]
+        public void ConstructJsonEntry_IllegalIdChars_InvalidNameException(string json) {
+            // Act
+            var exception = GetExceptionFromConstructor(json, out _);
+                        
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(InvalidNameException)));
+            Console.WriteLine(exception.Message);
+        }
+        
+        [TestCase(IntEntryJsonSource.InvalidType_StringType), TestCase(IntEntryJsonSource.InvalidType_BoolType)]
+        public void ConstructJsonEntry_TypeNotMatch_EntryTypeNotMatchException(string json) {
+            // Act
+            var exception = GetExceptionFromConstructor(json, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(EntryTypeNotMatchException)));
+            Console.WriteLine(exception.Message);
+        }
+        
+        [TestCase(IntEntryJsonSource.InvalidValueType_StringType),
+         TestCase(IntEntryJsonSource.InvalidValueType_BoolType)]
+        public void ConstructJsonEntry_ValueTypeNotMatch_InvalidEntryValueException(string json) {
+            // Act
+            var exception = GetExceptionFromConstructor(json, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(InvalidEntryValueException)));
+            Console.WriteLine(exception.Message);
+        }
+        
+        [TestCase(IntEntryJsonSource.MissingTypeKey), TestCase(IntEntryJsonSource.MissingValueKey)]
+        public void ConstructJsonEntry_MissingKeys_InvalidEntryTokenException(string json) {
+            // Act
+            var exception = GetExceptionFromConstructor(json, out _);
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(InvalidEntryTokenException)));
+            Console.WriteLine(exception.Message);
+        }
+
         private static Exception GetExceptionFromConstructor(string id, int value, out IntEntry result) {
             try {
                 result = new IntEntry(id, value);
@@ -55,6 +125,28 @@ namespace Settings.Net.Tests.SettingsEntry {
             }
             // Constructor succeeded
             return null;
+        }
+        
+        private static class IntEntryJsonSource {
+            // This class contains JSON data source for tests
+            public const string NormalEntry = 
+                @"{'EntryID':{'type':'Settings.IntEntry','desc':'A normal int entry','value':123}}";
+            public const string InvalidIdEntry1 =
+                @"{'Invalid.Entry':{'type':'Settings.IntEntry','desc':'Entry with invalid id name','value':123}}";
+            public const string InvalidIdEntry2 =
+                @"{'Invalid  Entry':{'type':'Settings.IntEntry','desc':'Entry with invalid id name','value':123}}";
+            public const string InvalidType_StringType =
+                @"{'StringEntry':{'type':'Settings.StringEntry','desc':'A string entry','value':'15'}}";
+            public const string InvalidType_BoolType = 
+                @"{'BoolEntry':{'type':'Settings.BoolEntry','desc':'An bool entry','value':true}}";
+            public const string InvalidValueType_StringType =
+                @"{'IntEntryWithStringValue':{'type':'Settings.IntEntry','desc':'An int entry with string value.','value':'15'}}";
+            public const string InvalidValueType_BoolType =
+                @"{'IntEntryWithBoolValue':{'type':'Settings.IntEntry','desc':'An int entry with bool value.','value':false}}";
+            public const string MissingTypeKey =
+                @"{'MissingTypeKey':{'desc':'An int entry with int value.','value':234}}";
+            public const string MissingValueKey =
+                @"{'MissingValueKey':{'type':'Settings.IntEntry','desc':'An int entry with int value.'}}";
         }
     }
 }
