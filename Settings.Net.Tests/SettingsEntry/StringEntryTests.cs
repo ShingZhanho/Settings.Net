@@ -24,8 +24,7 @@ namespace Settings.Net.Tests.SettingsEntry {
             Assert.That(result.Description, Is.EqualTo(desc));
         }
 
-        [TestCase(null, null)]
-        [TestCase("", null)]
+        [TestCase(null, null), TestCase("", null)]
         public void ConstructNewEntry_NullId_ArgNullException(string id, string value) {
             // Act
             var exception = GetExceptionFromConstructor(id, value, out _);

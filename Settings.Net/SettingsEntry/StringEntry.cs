@@ -27,7 +27,7 @@ namespace Settings.Net.SettingsEntry {
                 ID = id;
             } else {
                 throw new InvalidNameException(id,
-                    $"An ID cannot contain the character '{GetInvalidIdCharsInString(id)}'");
+                    $"An ID cannot contain the character(s) '{GetInvalidIdCharsInString(id)}'");
             }
             Value = value;
         }
