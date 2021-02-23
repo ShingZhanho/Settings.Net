@@ -5,7 +5,7 @@ using Settings.Exceptions;
 using Settings.SettingsEntry;
 using Newtonsoft.Json.Linq;
 
-namespace Settings.Net.Tests.SettingsEntry {
+namespace Settings.Tests.SettingsEntry {
     [TestFixture]
     public class StringEntryTests {
         [TestCase("StringEntry1", "Value1", "Description1"), TestCase("StringEntry2", "Value2", null),
