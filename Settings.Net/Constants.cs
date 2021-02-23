@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Settings.Net {
+namespace Settings {
     /// <summary> All constant values of Settings.Net. </summary>
     [ExcludeFromCodeCoverage]
     internal static class Constants {

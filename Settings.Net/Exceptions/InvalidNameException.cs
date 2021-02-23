@@ -2,7 +2,7 @@
 using System;
 using System.IO;
 
-namespace Settings.Net.Exceptions {
+namespace Settings.Exceptions {
     /// <summary>
     /// Throw if the ID of an entry contains invalid characters.
     /// Invalid chars can be retrieved by calling <see cref="SettingsEntry.BaseEntry.GetInvalidIdChars"/>.

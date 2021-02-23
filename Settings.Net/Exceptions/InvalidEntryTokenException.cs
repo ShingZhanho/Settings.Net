@@ -1,7 +1,7 @@
 ﻿#nullable enable
 using System;
 
-namespace Settings.Net.Exceptions {
+namespace Settings.Exceptions {
     /// <summary>
     /// Throw if essential keys do not exist in the JSON.
     /// </summary>

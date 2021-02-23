@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Settings.Net.Exceptions;
+using Settings.Exceptions;
 
-namespace Settings.Net.SettingsEntry {
+namespace Settings.SettingsEntry {
     /// <summary> Represents an entry with string value. </summary>
     public sealed class StringEntry : BaseEntry {
         /// <summary> Initializes a StringEntry object from existing JSON data. </summary>

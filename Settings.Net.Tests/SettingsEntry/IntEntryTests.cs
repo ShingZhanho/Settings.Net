@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Linq;
 using NUnit.Framework;
-using Settings.Net.Exceptions;
-using Settings.Net.SettingsEntry;
+using Settings.Exceptions;
+using Settings.SettingsEntry;
 using Newtonsoft.Json.Linq;
 
 namespace Settings.Net.Tests.SettingsEntry {

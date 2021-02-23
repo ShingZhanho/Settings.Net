@@ -2,7 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Settings.Net.SettingsEntry {
+namespace Settings.SettingsEntry {
     /// <summary> A base class for settings entry. This class is abstract and shall not be used in your code. </summary>
     [ExcludeFromCodeCoverage]
     public abstract class BaseEntry {
