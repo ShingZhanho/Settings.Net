@@ -5,7 +5,6 @@
     <br>
     A .NET library for easy accessing and storing settings and configuarions for your app.
 </p>
-<hr>
 <p align="center">
 <img src="https://github.com/ShingZhanho/Settings.Net/workflows/Build/badge.svg" alt="Build Status">
 <a href="https://codecov.io/gh/ShingZhanho/Settings.Net"><img src="https://codecov.io/gh/ShingZhanho/Settings.Net/branch/master/graph/badge.svg?token=EIMZVKR3RL"/></a>
