@@ -16,7 +16,7 @@ namespace Settings.SettingsEntry {
             EnsureJsonState(jToken);
 
             ID = ((JObject) jToken).Properties().ToList()[0].Name;
-            Value = int.Parse(jToken[ID]["value"].ToString());
+            Value = (int)jToken[ID]["value"];
             Description = jToken[ID]["desc"].ToString();
         }
 
