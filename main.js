@@ -228,7 +228,7 @@ var assemblies = [
       { "name": "Settings.Exceptions.InvalidEntryTokenException", "rp": "Settings.Net_InvalidEntryTokenException.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 24, "ct": "LineCoverage", "mc": "-", "cb": 2, "tb": 2, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.Exceptions.InvalidEntryValueException", "rp": "Settings.Net_InvalidEntryValueException.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 13, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 0, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.Exceptions.InvalidNameException", "rp": "Settings.Net_InvalidNameException.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 28, "ct": "LineCoverage", "mc": "-", "cb": 2, "tb": 2, "lch": [], "bch": [], "hc": [] },
-      { "name": "Settings.SettingsEntry.BoolEntry", "rp": "Settings.Net_BoolEntry.html", "cl": 13, "ucl": 0, "cal": 13, "tl": 30, "ct": "LineCoverage", "mc": "-", "cb": 6, "tb": 6, "lch": [], "bch": [], "hc": [] },
+      { "name": "Settings.SettingsEntry.BoolEntry", "rp": "Settings.Net_BoolEntry.html", "cl": 39, "ucl": 0, "cal": 39, "tl": 71, "ct": "LineCoverage", "mc": "-", "cb": 14, "tb": 14, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.SettingsEntry.IntEntry", "rp": "Settings.Net_IntEntry.html", "cl": 39, "ucl": 0, "cal": 39, "tl": 72, "ct": "LineCoverage", "mc": "-", "cb": 12, "tb": 12, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.SettingsEntry.StringEntry", "rp": "Settings.Net_StringEntry.html", "cl": 40, "ucl": 0, "cal": 40, "tl": 70, "ct": "LineCoverage", "mc": "-", "cb": 12, "tb": 12, "lch": [], "bch": [], "hc": [] },
     ]},
