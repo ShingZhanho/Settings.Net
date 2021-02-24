@@ -35,7 +35,7 @@ namespace Settings.Tests.SettingsEntry {
 
         
         [TestCase("Invalid Int Entry", 777),
-        TestCase("Another One", 689)]
+        TestCase("Another.One", 689)]
         public void ConstructNewEntry_IllegalChars_InvalidNameException(string id, int value) {
             // Act
             var exception = GetExceptionFromConstructor(id, value, out var _);
