@@ -3,8 +3,6 @@ name: Coverage
 on:
   push:
     branches-ignore: [ docs/* ]
-  pull_request:
-    branches-ignore: [ docs/* ]
   
 jobs:
   generate-report:
