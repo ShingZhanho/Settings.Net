@@ -15,6 +15,10 @@ namespace Settings.Net {
         /// <param name="id">The ID of the root.</param>
         /// <param name="childrenItems">A list of children items which belongs this root.</param>
         public SettingEntry(string id, List<IEntry> childrenItems) {
+            // Check ID status
+            if (!IdIsValid(id))
+                throw new InvalidNameException(id,
+                    $"An ID cannot contain these characters: '{GetInvalidIdCharsInString(id)}'");
             Id = id;
             Value = childrenItems;
             IsRoot = true;
@@ -22,9 +26,13 @@ namespace Settings.Net {
         }
 
         public string Id { get; }
+        public string? Description { get; }
         public EntryType Type { get; }
-        public IEntry? Parent { get; internal set; } = null;
+        public SettingEntry? Parent { get; }
         public List<IEntry> Value { get; }
+        /// <summary>
+        /// Indicating whether the current group is a root.
+        /// </summary>
         public bool IsRoot { get; }
 
         public IEntry this[string id] {
@@ -34,6 +42,20 @@ namespace Settings.Net {
                 throw new ArgumentOutOfRangeException(nameof(id), "Specified ID could not be found.");
             }
         }
+        
+        /// <summary>Gets an array of invalid ID characters.</summary>
+        public static char[] InvalidIdChars {
+            get { return new[] {'.', ' '}; }
+        }
+
+        /// <summary> Checks if the given ID is a valid ID.</summary>
+        /// <param name="id">The ID to check.</param>
+        /// <returns>true if valid, false instead.</returns>
+        internal static bool IdIsValid(string id) => id.IndexOfAny(InvalidIdChars) == -1;
+
+        /// <summary> Gets the list of chars that are illegal to use for an ID name. </summary>
+        /// <returns>List of invalid ID chars.</returns>
+        public static char[] GetInvalidIdCharsInString(string str) => str.Where(character => InvalidIdChars.Contains(character)).ToArray();
     }
     
     /// <summary>Represents an entry with value.</summary>
@@ -58,22 +80,16 @@ namespace Settings.Net {
             Value = value;
         }
         
-        /// <summary> The ID of the entry. The ID is unique under an entry group. </summary>
         public string Id { get; }
-
-        /// <summary> A descriptive line of this entry. Description is optional. </summary>
         public string? Description { get; set; }
-        
-        /// <summary>The value of this entry.</summary>
         public TValue? Value { get; }
-        
-        /// <summary>Gets the type of this entry.</summary>
         public EntryType Type { get; }
-
-        public IEntry Parent { get; }
+        public SettingEntry? Parent { get; }
 
         /// <summary>Gets an array of invalid ID characters.</summary>
-        public static char[] InvalidIdChars { get; } = {'.', ' '};
+        public static char[] InvalidIdChars {
+            get { return new[] {'.', ' '}; }
+        }
 
         /// <summary> Checks if the given ID is a valid ID.</summary>
         /// <param name="id">The ID to check.</param>
@@ -83,6 +99,5 @@ namespace Settings.Net {
         /// <summary> Gets the list of chars that are illegal to use for an ID name. </summary>
         /// <returns>List of invalid ID chars.</returns>
         public static char[] GetInvalidIdCharsInString(string str) => str.Where(character => InvalidIdChars.Contains(character)).ToArray();
-
     }
 }
