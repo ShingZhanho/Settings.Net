@@ -8,13 +8,13 @@ namespace Settings.Net {
     /// <summary>
     /// Represents a group of entries.
     /// </summary>
-    public class SettingEntry : IEntry<List<IEntry>> {
+    public class SettingsGroup : IEntryNode<List<IEntryNode>> {
         /// <summary>
         /// Initializes a new root of settings.
         /// </summary>
         /// <param name="id">The ID of the root.</param>
         /// <param name="childrenItems">A list of children items which belongs this root.</param>
-        public SettingEntry(string id, List<IEntry> childrenItems) {
+        public SettingsGroup(string id, List<IEntryNode> childrenItems) {
             // Check ID status
             if (!IdIsValid(id))
                 throw new InvalidNameException(id,
@@ -28,14 +28,14 @@ namespace Settings.Net {
         public string Id { get; }
         public string? Description { get; }
         public EntryType Type { get; }
-        public SettingEntry? Parent { get; }
-        public List<IEntry> Value { get; }
+        public SettingsGroup? Parent { get; }
+        public List<IEntryNode> Value { get; }
         /// <summary>
         /// Indicating whether the current group is a root.
         /// </summary>
         public bool IsRoot { get; }
 
-        public IEntry this[string id] {
+        public IEntryNode this[string id] {
             get {
                 foreach (var item in Value.Where(item => item.Id == id))
                     return item;
@@ -59,7 +59,7 @@ namespace Settings.Net {
     }
     
     /// <summary>Represents an entry with value.</summary>
-    public class SettingEntry<TValue> : IEntry<TValue> {
+    public class SettingEntry<TValue> : IEntryNode<TValue> {
         public SettingEntry(string id, TValue? value) {
             // Check for accepted types
             if (!new[] {typeof(string), typeof(int), typeof(bool)}.Contains(typeof(TValue)))
@@ -84,7 +84,7 @@ namespace Settings.Net {
         public string? Description { get; set; }
         public TValue? Value { get; }
         public EntryType Type { get; }
-        public SettingEntry? Parent { get; }
+        public SettingsGroup? Parent { get; }
 
         /// <summary>Gets an array of invalid ID characters.</summary>
         public static char[] InvalidIdChars {

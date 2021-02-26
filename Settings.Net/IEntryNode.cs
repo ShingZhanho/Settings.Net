@@ -1,7 +1,7 @@
 ﻿#nullable enable
 
 namespace Settings.Net {
-    public interface IEntry {
+    public interface IEntryNode {
         /// <summary>
         /// The ID of the entry. IDs shall not contain any illegal characters.
         /// </summary>
@@ -17,10 +17,10 @@ namespace Settings.Net {
         /// <summary>
         /// The parent of the entry. If the entry is a root group, this property will be null.
         /// </summary>
-        SettingEntry? Parent { get; }
+        SettingsGroup? Parent { get; }
     }
     
-    public interface IEntry<out TValue> : IEntry {
+    public interface IEntryNode<out TValue> : IEntryNode {
         /// <summary>
         /// The value of the entry. A list of objects when the entry is a group.
         /// </summary>
