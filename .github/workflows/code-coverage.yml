@@ -2,7 +2,7 @@ name: Coverage
 
 on:
   push:
-    branches-ignore: [ docs/* ]
+    branches: [ master ]
   
 jobs:
   generate-report:
