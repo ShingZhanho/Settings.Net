@@ -13,5 +13,9 @@
 <a href="https://github.com/ShingZhanho/Settings.Net/stargazers"><img alt="GitHub stars" src="https://img.shields.io/github/stars/ShingZhanho/Settings.Net?color=gold"></a>
     </p>
 
-## Get started
-Under development...
+## Project Progress
+Here shows the current project status:
+- [ ] Dealing with JSON
+    - [ ]  Deserialize JSON data to objects
+    - [ ]  Serialize objects to JSON data
+- [ ] Unit tests (coverage >= 90%)
