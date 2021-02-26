@@ -1,19 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Settings.SettingsEntry {
+namespace Settings.Net {
     /// <summary> A base class for settings entry. This class is abstract and shall not be used in your code. </summary>
     [ExcludeFromCodeCoverage]
-    public abstract class BaseEntry {
+    public abstract class SettingEntry<T> {
         /// <summary> The ID of the entry. The ID is unique under an entry group. </summary>
         public abstract string ID { get; }
 
         /// <summary> A descriptive line of this entry. Description is optional. </summary>
         public abstract string Description { get; set; }
+        
+        /// <summary>The value of this entry.</summary>
+        public abstract T Value { get; internal set; }
 
-        /// <summary>Using these chars for ID names is illegal and exception will be thrown.</summary>
-        internal static readonly char[] InvalidIdChars = {'.', ' '};
+        /// <summary>Gets an array of invalid ID characters.</summary>
+        public static char[] InvalidIdChars { get; } = {'.', ' '};
 
         /// <summary> Checks if the given ID is a valid ID.</summary>
         /// <param name="id">The ID to check.</param>

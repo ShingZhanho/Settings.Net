@@ -1,11 +1,10 @@
 ﻿#nullable enable
 using System;
-using System.IO;
 
-namespace Settings.Exceptions {
+namespace Settings.Net.Exceptions {
     /// <summary>
     /// Throw if the ID of an entry contains invalid characters.
-    /// Invalid chars can be retrieved by calling <see cref="SettingsEntry.BaseEntry.GetInvalidIdChars"/>.
+    /// Invalid chars can be retrieved by referencing <see cref="SettingEntry{T}.InvalidIdChars"/>.
     /// </summary>
     [Serializable]
     public class InvalidNameException : Exception {
