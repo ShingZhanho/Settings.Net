@@ -228,8 +228,8 @@ var assemblies = [
       { "name": "Settings.Exceptions.InvalidEntryTokenException", "rp": "Settings.Net_InvalidEntryTokenException.html", "cl": 0, "ucl": 7, "cal": 7, "tl": 24, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 2, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.Exceptions.InvalidEntryValueException", "rp": "Settings.Net_InvalidEntryValueException.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 13, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 0, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.Net.Exceptions.InvalidNameException", "rp": "Settings.Net_InvalidNameException.html", "cl": 0, "ucl": 9, "cal": 9, "tl": 27, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 2, "lch": [], "bch": [], "hc": [] },
-      { "name": "Settings.Net.SettingEntry", "rp": "Settings.Net_SettingEntry.html", "cl": 0, "ucl": 23, "cal": 23, "tl": 103, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 6, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.Net.SettingEntry`1", "rp": "Settings.Net_SettingEntry_1.html", "cl": 0, "ucl": 23, "cal": 23, "tl": 103, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 6, "lch": [], "bch": [], "hc": [] },
+      { "name": "Settings.Net.SettingsGroup", "rp": "Settings.Net_SettingsGroup.html", "cl": 0, "ucl": 23, "cal": 23, "tl": 103, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 6, "lch": [], "bch": [], "hc": [] },
     ]},
 ];
 
