@@ -12,25 +12,49 @@ namespace Settings.Net {
     /// </summary>
     public class SettingsGroup : IEntryNode<List<IEntryNode>> {
         /// <summary>
-        /// Initializes a new root of settings.
+        /// Initializes a new group of settings.
         /// </summary>
         /// <param name="id">The ID of the root.</param>
         /// <param name="childrenItems">A list of children items which belongs this root.</param>
-        public SettingsGroup(string id, List<IEntryNode> childrenItems) {
+        /// <param name="isRoot">Indicates whether this entry is a root.</param>
+        public SettingsGroup(string id, List<IEntryNode> childrenItems, bool isRoot = false) {
             // Check ID status
             if (!IdIsValid(id))
                 throw new InvalidNameException(id,
                     $"An ID cannot contain these characters: '{GetInvalidIdCharsInString(id)}'");
             Id = id;
             Value = childrenItems;
-            IsRoot = true;
-            Type = EntryType.Group;
+            IsRoot = isRoot;
+        }
+
+        public SettingsGroup(JToken jToken, bool isRoot = false) {
+            InternalEnsureJsonState(jToken);
+
+            Id = ((JObject) jToken).Properties().ToList()[0].Name;
+            Description = jToken[Id]!["desc"]!.ToString();
+            var valueList = new List<IEntryNode>();
+            // Initializes each item
+            foreach (var subItem in jToken[Id]!["contents"]!) {
+                var subId = ((JObject) subItem).Properties().ToList()[0].Name;
+                // If the item is a group
+                if (subItem[subId]!["type"]!.ToString() == EntryType.Group.ToString())
+                    valueList.Add(new SettingsGroup(subItem));
+                // If the item is not a group
+                valueList.Add(subItem[subId]!["type"]!.ToString() switch {
+                    nameof(EntryType.String) => new SettingEntry<string>(subItem),
+                    nameof(EntryType.Int) => new SettingEntry<int>(subItem),
+                    nameof(EntryType.Bool) => new SettingEntry<bool>(subItem),
+                    _ => throw new ArgumentOutOfRangeException(null, "Unknown Type.")
+                });
+            }
+            Value = valueList;
+            IsRoot = isRoot;
         }
 
         public string Id { get; }
         public string? Description { get; }
-        public EntryType Type { get; }
-        public SettingsGroup? Parent { get; }
+        public EntryType Type { get; } = EntryType.Group; // fixed
+        public SettingsGroup? Parent { get; internal set; }
         public List<IEntryNode> Value { get; }
         /// <summary>
         /// Indicating whether the current group is a root.
@@ -73,23 +97,23 @@ namespace Settings.Net {
             }
             // Check entry type
             try {
-                if (jToken[id]["type"].ToString() != EntryType.Group.ToString()) {
+                if (jToken[id]!["type"]!.ToString() != EntryType.Group.ToString()) {
                     var enumParseSuccess =
-                        Enum.TryParse(typeof(EntryType), jToken[id]["type"].ToString(), out var result);
+                        Enum.TryParse(typeof(EntryType), jToken[id]!["type"]!.ToString(), out var result);
                     throw enumParseSuccess
-                        ? new EntryTypeNotMatchException(EntryType.Group.ToString(), result.ToString(),
+                        ? new EntryTypeNotMatchException(EntryType.Group.ToString(), result!.ToString(),
                             "Passed in JToken is not an entry group.")
-                        : new ArgumentOutOfRangeException(nameof(jToken), $"Unknown type: {jToken[id]["type"]}");
+                        : new ArgumentOutOfRangeException(nameof(jToken), $"Unknown type: {jToken[id]!["type"]!}");
                 }
             } catch (NullReferenceException) {
                 throw new InvalidEntryTokenException(nameof(Type), "The Type key could not be found.");
             }
             // Check entry value
             try {
-                if (jToken[id]["contents"].Type != JTokenType.Object &&
-                    jToken[id]["contents"].Type != JTokenType.Null) {
+                if (jToken[id]!["contents"]!.Type != JTokenType.Object &&
+                    jToken[id]!["contents"]!.Type != JTokenType.Null) {
                     throw new InvalidEntryValueException(
-                        $"{JTokenType.Object}' or '{JTokenType.Null}", jToken[id]["contents"].Type.ToString(),
+                        $"{JTokenType.Object}' or '{JTokenType.Null}", jToken[id]!["contents"]!.Type.ToString(),
                         "The content's type does not match the given type in Type key.");
                 }
             } catch (NullReferenceException) {

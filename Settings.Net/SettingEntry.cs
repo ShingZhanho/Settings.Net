@@ -1,6 +1,8 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 using Settings.Net.Exceptions;
 
 namespace Settings.Net {
@@ -24,6 +26,10 @@ namespace Settings.Net {
             // Assign properties
             Id = id;
             Value = value;
+        }
+
+        public SettingEntry(JToken jToken) {
+            
         }
         
         public string Id { get; }
