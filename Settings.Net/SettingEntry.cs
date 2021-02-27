@@ -2,9 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
-using Settings.Exceptions;
 using Settings.Net.Exceptions;
 
 #pragma warning disable 8714

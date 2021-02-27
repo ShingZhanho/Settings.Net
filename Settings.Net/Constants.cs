@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Settings
+namespace Settings.Net
 {
     /// <summary> All constant values of Settings.Net. </summary>
     [ExcludeFromCodeCoverage]

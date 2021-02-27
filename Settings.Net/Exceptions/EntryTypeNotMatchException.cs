@@ -1,7 +1,7 @@
 ﻿#nullable enable
 using System;
 
-namespace Settings.Exceptions
+namespace Settings.Net.Exceptions
 {
     /// <summary>
     /// Throws if the entry type specified in the JSON does not match the object's type.

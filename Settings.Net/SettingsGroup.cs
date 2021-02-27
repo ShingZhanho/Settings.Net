@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json.Linq;
-using Settings.Exceptions;
 using Settings.Net.Exceptions;
 
 namespace Settings.Net
@@ -68,6 +67,10 @@ namespace Settings.Net
         public EntryType Type { get; } = EntryType.Group; // fixed
         public SettingsGroup? Parent { get; internal set; }
         public List<IEntryNode> Value { get; }
+        /// <summary>
+        /// Gets whether this group has any sub-groups or entries inside.
+        /// </summary>
+        public bool HasChildren => Value.Count > 0;
 
         /// <summary>
         /// Indicating whether the current group is a root.
@@ -104,6 +107,73 @@ namespace Settings.Net
         /// <returns>List of invalid ID chars.</returns>
         public static char[] GetInvalidIdCharsInString(string str) =>
             str.Where(character => InvalidIdChars.Contains(character)).ToArray();
+
+        /// <summary>
+        /// Adds an entry or a group to the current group. The entry's ID must not be the same with the existing items'.
+        /// </summary>
+        /// <param name="entry">The entry or group object to add.</param>
+        /// <returns>The path of the added entry.</returns>
+        public string Add(IEntryNode entry)
+        {
+            if (this[entry.Id] != null)
+                // Prevents adding an entry with duplicated ID
+                throw new InvalidOperationException(
+                    $"An entry with the same ID '{entry.Id}' already exists in this group.");
+            Value.Add(entry);
+            return this[entry.Id].Path;
+        }
+
+        /// <summary>
+        /// Adds an new entry to the current group. The entry's ID must not be the same with the existing items'.
+        /// </summary>
+        /// <param name="id">The ID of the entry to add.</param>
+        /// <param name="value">The value of the new entry.</param>
+        /// <param name="description">The description of the new entry.</param>
+        /// <returns>The path of the added entry.</returns>
+        public string Add<T>(string id, T value, string? description = null) => Add(new SettingEntry<T>(id, value){Description = description});
+
+        /// <summary>
+        /// Adds a new group with or without existing members. The group's ID must not be the same with the existing items'.
+        /// </summary>
+        /// <param name="id">The ID of the new group.</param>
+        /// <param name="children">The children items of this group.</param>
+        /// <returns>The path of the new added group.</returns>
+        public string AddGroup(string id, List<IEntryNode>? children = null) =>
+            Add(new SettingsGroup(id, children ?? new List<IEntryNode>(), false));
+
+        /// <summary>
+        /// Removes an entry from the current group.
+        /// </summary>
+        /// <param name="id">The id of the entry to remove.</param>
+        public void RemoveEntry(string id)
+        {
+            if (this[id] == null)
+                throw new ArgumentOutOfRangeException(nameof(id), "The specified ID could not be found.");
+            if (this[id].Type == EntryType.Group)
+                throw new InvalidOperationException(
+                    "The specified ID is a group and cannot be removed with RemoveEntry(). Use RemoveGroup() instead");
+            Value.Remove(this[id]);
+        }
+
+        /// <summary>
+        /// Removes a group from the current group.
+        /// </summary>
+        /// <param name="id">The ID of the group to remove.</param>
+        /// <param name="recursive">Indicating whether remove the group recursively if the group has children.</param>
+        /// <exception cref="InvalidOperationException">Throws if the group has children but 'recursive' is false.</exception>
+        public void RemoveGroup(string id, bool recursive = false)
+        {
+            if (this[id] == null)
+                throw new ArgumentOutOfRangeException(nameof(id), "The specified ID could not be found.");
+            if (this[id].Type != EntryType.Group)
+                throw new InvalidOperationException(
+                    "The specified ID is not a group and cannot be removed with RemoveGroup(). Use RemoveEntry() instead");
+            if (((SettingsGroup) this[id]).HasChildren && !recursive)
+                // Has values but recursive option is false
+                throw new InvalidOperationException(
+                    "The group specified has values. Set parameter 'recursive' to true to remove this group recursively.");
+            Value.Remove(this[id]);
+        }
 
         // Check JSON before constructing object
         private static void InternalEnsureJsonState(JToken jToken)
