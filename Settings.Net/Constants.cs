@@ -1,11 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Settings {
+namespace Settings
+{
     /// <summary> All constant values of Settings.Net. </summary>
     [ExcludeFromCodeCoverage]
-    internal static class Constants {
+    internal static class Constants
+    {
         /// <summary> Flags indicating the entry's type. </summary>
-        internal static class EntryTypeFlags {
+        internal static class EntryTypeFlags
+        {
             internal static string StringEntry => "Settings.StringEntry";
             internal static string IntEntry => "Settings.IntEntry";
             internal static string BoolEntry => "Settings.BoolEntry";
