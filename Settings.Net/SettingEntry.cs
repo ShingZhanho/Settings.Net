@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 using Settings.Exceptions;
 using Settings.Net.Exceptions;
@@ -24,23 +25,39 @@ namespace Settings.Net
                 throw new InvalidNameException(nameof(id), "IDs should not contain chars: " +
                                                            $"'{GetInvalidIdCharsInString(id)}'");
             // Assign Type property
-            var enumDict = new Dictionary<Type, EntryType>();
-            enumDict.Add(typeof(string), EntryType.String);
-            enumDict.Add(typeof(int), EntryType.Int);
-            enumDict.Add(typeof(bool), EntryType.Bool);
-            Type = enumDict[typeof(TValue)];
+            Type = GetTypeEnum<TValue>() ?? throw new ArgumentOutOfRangeException(nameof(TValue), "This type is not accepted");
             // Assign properties
             Id = id;
             Value = value;
         }
 
-        public SettingEntry(JToken jToken) { }
+        public SettingEntry(JToken jToken)
+        {
+            InternalEnsureJsonState(jToken);
+
+            Id = ((JObject) jToken).Properties().ToList()[0].Name;
+            Type = GetTypeEnum(jToken[Id]!["type"]!.Type)
+                   ?? throw new ArgumentOutOfRangeException(jToken[Id]!["type"]!.Type.ToString(),
+                       "This type is not accepted.");
+            // Assign value
+            try
+            {
+                // Try convert the json value to the TValue type.
+                Value = (TValue) Convert.ChangeType(jToken[Id]!["value"]!.ToString(), typeof(TValue));
+            }
+            catch (InvalidCastException)
+            {
+                Console.WriteLine("Failed to convert values.");
+                throw;
+            }
+            Description = jToken[Id]!["desc"]!.ToString();
+        }
 
         public string Id { get; }
         public string? Description { get; set; }
-        public TValue? Value { get; }
+        public TValue? Value { get; internal set; }
         public EntryType Type { get; }
-        public SettingsGroup? Parent { get; }
+        public SettingsGroup? Parent { get; internal set; }
 
         /// <summary>Gets an array of invalid ID characters.</summary>
         public static char[] InvalidIdChars
@@ -57,6 +74,32 @@ namespace Settings.Net
         /// <returns>List of invalid ID chars.</returns>
         public static char[] GetInvalidIdCharsInString(string str) =>
             str.Where(character => InvalidIdChars.Contains(character)).ToArray();
+
+        /// <summary>
+        /// Gets the corresponding enum of the given type. Null is returned if no enum matches.
+        /// </summary>
+        private static EntryType? GetTypeEnum<T>()
+        {
+            var enumDict = new Dictionary<Type, EntryType>
+            {
+                {typeof(string), EntryType.String}, {typeof(int), EntryType.Int}, {typeof(bool), EntryType.Bool}
+            };
+            return enumDict.ContainsKey(typeof(T))
+                ? enumDict[typeof(T)]
+                : null;
+        }
+
+        /// <summary>
+        /// Gets the corresponding enum of the given JTokenType. Null is returned if no enum matches.
+        /// </summary>
+        private static EntryType? GetTypeEnum(JTokenType type) =>
+            type switch
+            {
+                JTokenType.String => GetTypeEnum<string>(),
+                JTokenType.Integer => GetTypeEnum<int>(),
+                JTokenType.Boolean => GetTypeEnum<bool>(),
+                _ => null
+            };
 
         private static void InternalEnsureJsonState(JToken jToken)
         {
