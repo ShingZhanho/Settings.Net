@@ -23,6 +23,11 @@ namespace Settings.Net
         /// The parent of the entry. If the entry is a root group, this property will be null.
         /// </summary>
         SettingsGroup? Parent { get; }
+        
+        /// <summary>
+        /// Gets the path to the current entry.
+        /// </summary>
+        string Path { get; }
     }
 
     public interface IEntryNode<out TValue> : IEntryNode

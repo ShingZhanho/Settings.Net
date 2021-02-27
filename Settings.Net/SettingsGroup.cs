@@ -84,6 +84,11 @@ namespace Settings.Net
             }
         }
 
+        /// <summary>
+        /// Gets the path to the current group.
+        /// </summary>
+        public string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
+
         /// <summary>Gets an array of invalid ID characters.</summary>
         public static char[] InvalidIdChars
         {

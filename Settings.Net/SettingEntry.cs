@@ -58,6 +58,7 @@ namespace Settings.Net
         public TValue? Value { get; internal set; }
         public EntryType Type { get; }
         public SettingsGroup? Parent { get; internal set; }
+        public string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
 
         /// <summary>Gets an array of invalid ID characters.</summary>
         public static char[] InvalidIdChars
