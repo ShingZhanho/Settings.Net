@@ -30,6 +30,11 @@ namespace Settings.Net
             IsRoot = isRoot;
         }
 
+        /// <summary>
+        /// Initializes a new group of entries from existing JSON data.
+        /// </summary>
+        /// <param name="jToken">The parsed JSON.</param>
+        /// <param name="isRoot">Indicating whether the entry is a root.</param>
         public SettingsGroup(JToken jToken, bool isRoot = false)
         {
             InternalEnsureJsonState(jToken);
@@ -133,11 +138,11 @@ namespace Settings.Net
             // Check entry value
             try
             {
-                if (jToken[id]!["contents"]!.Type != JTokenType.Object &&
+                if (jToken[id]!["contents"]!.Type != JTokenType.Array &&
                     jToken[id]!["contents"]!.Type != JTokenType.Null)
                 {
                     throw new InvalidEntryValueException(
-                        $"{JTokenType.Object}' or '{JTokenType.Null}", jToken[id]!["contents"]!.Type.ToString(),
+                        $"{JTokenType.Array}' or '{JTokenType.Null}", jToken[id]!["contents"]!.Type.ToString(),
                         "The content's type does not match the given type in Type key.");
                 }
             }
