@@ -139,7 +139,7 @@ namespace Settings.Net
         /// <param name="children">The children items of this group.</param>
         /// <returns>The path of the new added group.</returns>
         public string AddGroup(string id, List<IEntryNode>? children = null) =>
-            Add(new SettingsGroup(id, children ?? new List<IEntryNode>(), false));
+            Add(new SettingsGroup(id, children ?? new List<IEntryNode>()));
 
         /// <summary>
         /// Removes an entry from the current group.
