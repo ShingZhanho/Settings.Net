@@ -189,6 +189,33 @@ namespace Settings.Net
             Value.Remove(this[id]);
         }
 
+        /// <summary>
+        /// Gets the index of the specified entry.
+        /// </summary>
+        /// <param name="entry">The entry to get.</param>
+        public int IndexOf(IEntryNode entry) =>
+            !Value.Contains(entry)
+                ? throw new ArgumentException("This entry does not belong to the current group.", nameof(entry))
+                : Value.IndexOf(entry);
+
+        /// <summary>
+        /// Gets the index of the specified entry by ID.
+        /// </summary>
+        /// <param name="entryId">The ID of the entry to get.</param>
+        public int IndexOf(string entryId)
+        {
+            try
+            {
+                var entryToGet = this[entryId];
+                return IndexOf(entryToGet);
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                throw new ArgumentException("The specified entry could not be found under this group.", nameof(entryId),
+                    e);
+            }
+        }
+
         // Check JSON before constructing object
         private static void InternalEnsureJsonState(JToken jToken)
         {
