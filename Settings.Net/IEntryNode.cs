@@ -28,6 +28,11 @@ namespace Settings.Net
         /// Gets the path to the current entry.
         /// </summary>
         string Path { get; }
+        
+        /// <summary>
+        /// Gets the root of the current entry. Null is returned if the current entry has not yet been added to any group that has a root.
+        /// </summary>
+        SettingsGroup? Root { get; }
     }
 
     public interface IEntryNode<out TValue> : IEntryNode

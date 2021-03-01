@@ -58,6 +58,21 @@ namespace Settings.Net
         public SettingsGroup? Parent { get; internal set; }
         public string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
 
+        public SettingsGroup? Root
+        {
+            get
+            {
+                if (Parent == null) return null;
+                var rootGroup = this.Parent;
+                while (!rootGroup.IsRoot)
+                {
+                    if (rootGroup.Parent == null) return null;
+                    rootGroup = Parent;
+                }
+                return rootGroup;
+            }
+        }
+
         /// <summary>Gets an array of invalid ID characters.</summary>
         public static char[] InvalidIdChars
         {
