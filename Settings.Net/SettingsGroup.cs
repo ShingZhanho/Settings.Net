@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using Newtonsoft.Json.Linq;
 using Settings.Net.Exceptions;
 
@@ -161,8 +162,14 @@ namespace Settings.Net
         /// <param name="id">The id of the entry to remove.</param>
         public void RemoveEntry(string id)
         {
-            if (this[id] == null)
-                throw new ArgumentOutOfRangeException(nameof(id), "The specified ID could not be found.");
+            try
+            {
+                _ = this[id];
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                throw new ArgumentOutOfRangeException( "The specified ID could not be found.", e);
+            }
             if (this[id].Type == EntryType.Group)
                 throw new InvalidOperationException(
                     "The specified ID is a group and cannot be removed with RemoveEntry(). Use RemoveGroup() instead");
@@ -177,8 +184,14 @@ namespace Settings.Net
         /// <exception cref="InvalidOperationException">Throws if the group has children but 'recursive' is false.</exception>
         public void RemoveGroup(string id, bool recursive = false)
         {
-            if (this[id] == null)
-                throw new ArgumentOutOfRangeException(nameof(id), "The specified ID could not be found.");
+            try
+            {
+                _ = this[id];
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                throw new ArgumentOutOfRangeException( "The specified ID could not be found.", e);
+            }
             if (this[id].Type != EntryType.Group)
                 throw new InvalidOperationException(
                     "The specified ID is not a group and cannot be removed with RemoveGroup(). Use RemoveEntry() instead");

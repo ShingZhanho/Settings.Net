@@ -85,6 +85,56 @@ namespace Settings.Net
         public string AddNewRoot(string id, List<IEntryNode>? members = null, string? description = null) =>
             AddNewRoot(new SettingsGroup(id, members, true) {Description = description});
 
+        /// <summary>
+        /// Removes a group from the bundle by its ID.
+        /// </summary>
+        /// <param name="rootId">The ID of the entry to remove.</param>
+        /// <param name="recursive">Indicating whether to remove the group recursively.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Throws if the given ID does not match any group.</exception>
+        /// <exception cref="InvalidOperationException">Throws if the group being removed has children but parameter recursive is set to false.</exception>
+        public void RemoveRoot(string rootId, bool recursive = false)
+        {
+            try
+            {
+                _ = this[rootId];
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                throw new ArgumentOutOfRangeException("The specified ID could not be found.", e);
+            }
+            if (this[rootId].HasChildren && !recursive)
+                throw new InvalidOperationException(
+                    "Unable to remove a group contains children with parameter 'recursive' set to false.");
+            Roots.Remove(this[rootId]);
+        }
+
+        /// <summary>
+        /// Gets the entry by path.
+        /// </summary>
+        /// <param name="path">The path of the entry to get.</param>
+        /// <returns>The specified entry. null is returned if not found.</returns>
+        /// <exception cref="InvalidOperationException">Throws if part of the path points to an entry rather than a group.</exception>
+        public IEntryNode? GetEntryByPath(string path)
+        {
+            IEntryNode currEntry;
+            try
+            {
+                currEntry = this[path.Split('.')[0]];
+                for (var index = 1; index < path.Split('.').Length - 1; index++)
+                {
+                    if (currEntry.Type != EntryType.Group)
+                        throw new InvalidOperationException(
+                            $"This part of the path points to an entry, not a group: '{currEntry.Path}'");
+                    currEntry = ((SettingsGroup)currEntry)[path.Split('.')[index]];
+                }
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return null;
+            }
+            return currEntry;
+        }
+
         private void PrivateConstructor(JToken jToken)
         {
             // Construct a new object with JToken
