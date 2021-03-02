@@ -18,14 +18,14 @@ namespace Settings.Net
         /// <param name="id">The ID of the root.</param>
         /// <param name="childrenItems">A list of children items which belongs this root.</param>
         /// <param name="isRoot">Indicates whether this entry is a root.</param>
-        public SettingsGroup(string id, List<IEntryNode> childrenItems, bool isRoot = false)
+        public SettingsGroup(string id, List<IEntryNode>? childrenItems, bool isRoot = false)
         {
             // Check ID status
             if (!IdIsValid(id))
                 throw new InvalidNameException(id,
                     $"An ID cannot contain these characters: '{GetInvalidIdCharsInString(id)}'");
             Id = id;
-            Value = childrenItems;
+            Value = childrenItems ?? new List<IEntryNode>();
             IsRoot = isRoot;
         }
 
@@ -63,7 +63,7 @@ namespace Settings.Net
         }
 
         public string Id { get; }
-        public string? Description { get; }
+        public string? Description { get; set; }
         public EntryType Type { get; } = EntryType.Group; // fixed
         public SettingsGroup? Parent { get; internal set; }
         public List<IEntryNode> Value { get; }
@@ -75,7 +75,7 @@ namespace Settings.Net
         /// <summary>
         /// Indicating whether the current group is a root.
         /// </summary>
-        public bool IsRoot { get; }
+        public bool IsRoot { get; internal set; }
 
         public IEntryNode this[string id]
         {
