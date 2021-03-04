@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Settings.Net.Exceptions;
+using JetBrains.Annotations;
 
 #nullable enable
 
@@ -148,6 +149,7 @@ namespace Settings.Net
             }
         }
 
+        [AssertionMethod]
         private static void InternalEnsureJsonState(JToken jToken)
         {
             // Check json data for errors

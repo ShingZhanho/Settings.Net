@@ -1,6 +1,6 @@
 ﻿#nullable enable
-using System;
 using NUnit.Framework;
+#pragma warning disable 8602
 
 namespace Settings.Net.Tests
 {
