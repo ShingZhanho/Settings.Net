@@ -17,4 +17,10 @@
       <ProjectReference Include="..\Settings.Net\Settings.Net.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="TestData\NormalSettingsFile.sj">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
