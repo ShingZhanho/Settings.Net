@@ -18,19 +18,5 @@ namespace Settings.Net.Tests
             }
             return null;
         }
-
-        internal static Exception? GetExceptionFromFunction(Action<object[]> action, object[]? parameters)
-        {
-            parameters ??= Array.Empty<object>();
-            try
-            {
-                action(parameters);
-            }
-            catch (Exception e)
-            {
-                return e;
-            }
-            return null;
-        }
     }
 }
