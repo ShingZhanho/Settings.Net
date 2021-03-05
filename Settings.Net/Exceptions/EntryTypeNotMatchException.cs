@@ -15,13 +15,6 @@ namespace Settings.Exceptions {
             _receivedType = receivedType;
         }
 
-        public override string Message {
-            get {
-                var m = base.Message;
-                if (!string.IsNullOrEmpty(_expectedType) && !string.IsNullOrEmpty(_receivedType))
-                    m += $" Expected '{_expectedType}', got '{_receivedType}'";
-                return m;
-            }
-        }
+        public override string Message => $"{base.Message} Expected '{_expectedType}', got '{_receivedType}'";
     }
 }

@@ -12,13 +12,6 @@ namespace Settings.Exceptions {
 
         public InvalidEntryTokenException(string? missingKey, string? messages = null) : base(messages) => _missingKey = missingKey;
 
-        public override string Message {
-            get {
-                var m = base.Message;
-                if (!string.IsNullOrEmpty(_missingKey))
-                    m += $" Key '{_missingKey}' could not be found.";
-                return m;
-            }
-        }
+        public override string Message => $"{base.Message} Key '{_missingKey}' could not be found.";
     }
 }

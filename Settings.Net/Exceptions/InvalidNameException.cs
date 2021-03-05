@@ -16,13 +16,6 @@ namespace Settings.Exceptions {
             _invalidName = invalidName;
         }
 
-        public override string Message {
-            get {
-                var m = base.Message;
-                if (!string.IsNullOrEmpty(_invalidName))
-                    m += $" Name \"{_invalidName}\" is invalid.";
-                return m;
-            }
-        }
+        public override string Message => $"{base.Message} Name \"{_invalidName}\" is invalid.";
     }
 }
