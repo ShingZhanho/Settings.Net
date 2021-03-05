@@ -224,10 +224,10 @@ var assemblies = [
   {
     "name": "Settings.Net",
     "classes": [
-      { "name": "Settings.Exceptions.EntryTypeNotMatchException", "rp": "Settings.Net_EntryTypeNotMatchException.html", "cl": 10, "ucl": 0, "cal": 10, "tl": 27, "ct": "LineCoverage", "mc": "-", "cb": 3, "tb": 4, "lch": [], "bch": [], "hc": [] },
-      { "name": "Settings.Exceptions.InvalidEntryTokenException", "rp": "Settings.Net_InvalidEntryTokenException.html", "cl": 7, "ucl": 0, "cal": 7, "tl": 24, "ct": "LineCoverage", "mc": "-", "cb": 2, "tb": 2, "lch": [], "bch": [], "hc": [] },
+      { "name": "Settings.Exceptions.EntryTypeNotMatchException", "rp": "Settings.Net_EntryTypeNotMatchException.html", "cl": 5, "ucl": 0, "cal": 5, "tl": 20, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 0, "lch": [], "bch": [], "hc": [] },
+      { "name": "Settings.Exceptions.InvalidEntryTokenException", "rp": "Settings.Net_InvalidEntryTokenException.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 17, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 0, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.Exceptions.InvalidEntryValueException", "rp": "Settings.Net_InvalidEntryValueException.html", "cl": 2, "ucl": 0, "cal": 2, "tl": 13, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 0, "lch": [], "bch": [], "hc": [] },
-      { "name": "Settings.Exceptions.InvalidNameException", "rp": "Settings.Net_InvalidNameException.html", "cl": 9, "ucl": 0, "cal": 9, "tl": 28, "ct": "LineCoverage", "mc": "-", "cb": 2, "tb": 2, "lch": [], "bch": [], "hc": [] },
+      { "name": "Settings.Exceptions.InvalidNameException", "rp": "Settings.Net_InvalidNameException.html", "cl": 4, "ucl": 0, "cal": 4, "tl": 21, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 0, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.SettingsEntry.BoolEntry", "rp": "Settings.Net_BoolEntry.html", "cl": 39, "ucl": 0, "cal": 39, "tl": 71, "ct": "LineCoverage", "mc": "-", "cb": 14, "tb": 14, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.SettingsEntry.EntriesGroup", "rp": "Settings.Net_EntriesGroup.html", "cl": 0, "ucl": 19, "cal": 19, "tl": 43, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 2, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.SettingsEntry.IntEntry", "rp": "Settings.Net_IntEntry.html", "cl": 39, "ucl": 0, "cal": 39, "tl": 72, "ct": "LineCoverage", "mc": "-", "cb": 12, "tb": 12, "lch": [], "bch": [], "hc": [] },
