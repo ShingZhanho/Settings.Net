@@ -2,7 +2,9 @@ name: Coverage
 
 on:
   push:
-    branches-ignore: [ docs/* ]
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
   
 jobs:
   generate-report:
@@ -42,6 +44,8 @@ jobs:
   
     runs-on: ubuntu-latest
     needs: generate-report
+    # Prevents running from pull requests.
+    if: ${{ github.event_name != 'pull_request' }}
     
     steps:
     - name: Checkout
