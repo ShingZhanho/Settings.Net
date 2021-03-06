@@ -1,4 +1,5 @@
 ﻿#nullable enable
+using System;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
@@ -8,15 +9,17 @@ namespace Settings.Net.Tests
 {
     public class SettingsBundleTests
     {
-        [Test,
+        [TestCase("description"),
+         TestCase(null),
          Description("Construct a new SettingsBundle, no exceptions should be thrown.")]
-        public void Ctor_NewBundle_Successful()
+        public void Ctor_NewBundle_Successful(string? description)
         {
             // Act
-            var result = new SettingsBundle();
+            var result = new SettingsBundle{Description = description};
             
             // Assert
             Assert.That(result, Is.Not.Null);
+            Assert.That(result.Description, Is.EqualTo(description));
             Assert.That(result.Roots.Count, Is.EqualTo(0));
         }
 
@@ -39,7 +42,8 @@ namespace Settings.Net.Tests
         }
 
         [TestCase("SomeId", "Some description"),
-         TestCase("someMoreIds", null)]
+         TestCase("someMoreIds", null),
+         Description("Add an existing root to a bundle.")]
         public void AddNewRoot_ExistingRoot_Successful(string id, string description)
         {
             // Arrange
@@ -53,6 +57,53 @@ namespace Settings.Net.Tests
             Assert.That(bundle.ContainsKey(id), Is.True);
             Assert.That(bundle[id], Is.Not.Null);
             Assert.That(bundle[id].IsRoot, Is.True);
+        }
+
+        [Test,
+         Description("Adds a root with the same name of an existing root. InvalidOperationException is expected.")]
+        public void AddNewRoot_ExistingRoot_InvalidOperationException()
+        {
+            // Arrange
+            var bundle = new SettingsBundle();
+            const string? id = "rootId";
+            bundle.AddNewRoot(id);
+            var exception = new Exception();
+            
+            // Act
+            try
+            {
+                bundle.AddNewRoot(id);
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(InvalidOperationException)));
+        }
+
+        [Test,
+         Description("Use indexer to get a root that does not exist. IndexOutOfRangeException is expected.")]
+        public void Indexer_EntryNotExists_IndexOutOfRangeException()
+        {
+            // Arrange
+            var bundle = new SettingsBundle();
+            bundle.AddNewRoot("RealRoot");
+            Exception exception = new();
+            
+            // Act
+            try
+            {
+                _ = bundle["FakeRoot"];
+            }
+            catch (Exception e)
+            {
+                exception = e;
+            }
+            
+            // Assert
+            Assert.That(exception, Is.TypeOf(typeof(IndexOutOfRangeException)));
         }
     }
 }

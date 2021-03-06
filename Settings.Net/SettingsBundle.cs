@@ -58,7 +58,7 @@ namespace Settings.Net
         public bool ContainsKey(string key) => Roots.Any(item => item.Id == key);
 
         public string? Description { get; set; }
-        public List<SettingsGroup> Roots { get; private set; } = new ();
+        public List<SettingsGroup> Roots { get; } = new ();
 
         /// <summary>
         /// Adds a existing group as a root to the current bundle.
