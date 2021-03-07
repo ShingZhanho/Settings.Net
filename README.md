@@ -15,7 +15,7 @@
 
 ## Project Progress
 Here shows the current project status:
-- [ ] Dealing with JSON
-    - [ ]  Deserialize JSON data to objects
-    - [ ]  Serialize objects to JSON data
+- [x] Dealing with JSON
+    - [x]  Deserialize JSON data to objects
+    - [x]  Serialize objects to JSON data
 - [ ] Unit tests (coverage >= 90%)
