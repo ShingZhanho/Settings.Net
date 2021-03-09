@@ -1,5 +1,6 @@
 ﻿#nullable enable
 using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using NUnit.Framework.Internal;
 
@@ -104,6 +105,51 @@ namespace Settings.Net.Tests
             
             // Assert
             Assert.That(exception, Is.TypeOf(typeof(IndexOutOfRangeException)));
+        }
+
+        [Test,
+         Description("Remove an existing empty bundle from a bundle.")]
+        public void RemoveRoot_RemoveExistingEmptyRoot_EntryRemoved()
+        {
+            // Arrange
+            var bundle = new SettingsBundle();
+            bundle.AddNewRoot("rootToRemove");
+            
+            // Act
+            bundle.RemoveRoot("rootToRemove");
+            
+            // Assert
+            Assert.That(bundle.ContainsKey("rootToRemove"), Is.False);
+        }
+
+        [Test,
+         Description("Remove an root that has children items without setting 'recursive' to true." +
+                     "InvalidOperationException should be thrown.")]
+        public void RemoveRoot_RemoveNonEmptyRootWithoutRecursive_InvalidOperationException()
+        {
+            // Arrange
+            var bundle = new SettingsBundle();
+            bundle.AddNewRoot(new SettingsGroup(
+                "GroupWithChildren",
+                new List<IEntryNode>
+                {
+                    new SettingEntry<string>("StringEntry", "Some value")
+                }));
+            
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => bundle.RemoveRoot("GroupWithChildren"));
+        }
+
+        [Test,
+         Description("Remove an root that does not exist in the bundle. ArgumentOutOfRangeException should be thrown.")]
+        public void RemoveRoot_RemoveNonExistingRoot_ArgumentOutOfRangeException()
+        {
+            // Arrange
+            var bundle = new SettingsBundle();
+            bundle.AddNewRoot("This-Is-A-Root");
+            
+            // Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => bundle.RemoveRoot("This-Is-Not-A-Root"));
         }
     }
 }
