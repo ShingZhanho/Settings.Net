@@ -228,9 +228,9 @@ var assemblies = [
       { "name": "Settings.Net.Exceptions.InvalidEntryTokenException", "rp": "Settings.Net_InvalidEntryTokenException.html", "cl": 0, "ucl": 8, "cal": 8, "tl": 28, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 2, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.Net.Exceptions.InvalidEntryValueException", "rp": "Settings.Net_InvalidEntryValueException.html", "cl": 0, "ucl": 2, "cal": 2, "tl": 15, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 0, "lch": [], "bch": [], "hc": [] },
       { "name": "Settings.Net.Exceptions.InvalidNameException", "rp": "Settings.Net_InvalidNameException.html", "cl": 0, "ucl": 10, "cal": 10, "tl": 31, "ct": "LineCoverage", "mc": "-", "cb": 0, "tb": 2, "lch": [], "bch": [], "hc": [] },
-      { "name": "Settings.Net.SettingEntry`1", "rp": "Settings.Net_SettingEntry_1.html", "cl": 23, "ucl": 86, "cal": 109, "tl": 182, "ct": "LineCoverage", "mc": "-", "cb": 5, "tb": 35, "lch": [], "bch": [], "hc": [] },
-      { "name": "Settings.Net.SettingsBundle", "rp": "Settings.Net_SettingsBundle.html", "cl": 41, "ucl": 37, "cal": 78, "tl": 165, "ct": "LineCoverage", "mc": "-", "cb": 15, "tb": 24, "lch": [], "bch": [], "hc": [] },
-      { "name": "Settings.Net.SettingsGroup", "rp": "Settings.Net_SettingsGroup.html", "cl": 22, "ucl": 118, "cal": 140, "tl": 284, "ct": "LineCoverage", "mc": "-", "cb": 10, "tb": 50, "lch": [], "bch": [], "hc": [] },
+      { "name": "Settings.Net.SettingEntry`1", "rp": "Settings.Net_SettingEntry_1.html", "cl": 24, "ucl": 85, "cal": 109, "tl": 182, "ct": "LineCoverage", "mc": "-", "cb": 5, "tb": 35, "lch": [], "bch": [], "hc": [] },
+      { "name": "Settings.Net.SettingsBundle", "rp": "Settings.Net_SettingsBundle.html", "cl": 46, "ucl": 32, "cal": 78, "tl": 165, "ct": "LineCoverage", "mc": "-", "cb": 16, "tb": 24, "lch": [], "bch": [], "hc": [] },
+      { "name": "Settings.Net.SettingsGroup", "rp": "Settings.Net_SettingsGroup.html", "cl": 23, "ucl": 117, "cal": 140, "tl": 284, "ct": "LineCoverage", "mc": "-", "cb": 11, "tb": 50, "lch": [], "bch": [], "hc": [] },
     ]},
 ];
 
