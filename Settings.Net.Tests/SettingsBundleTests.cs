@@ -110,7 +110,7 @@ namespace Settings.Net.Tests
             var bundle = new SettingsBundle();
             bundle.AddNewRoot(new SettingsGroup(
                 "GroupWithChildren",
-                new List<IEntry>
+                new List<AbstractEntry>
                 {
                     new SettingEntry<string>("StringEntry", "Some value")
                 }));
@@ -152,11 +152,11 @@ namespace Settings.Net.Tests
                 var bundle = new SettingsBundle();
                 bundle.AddNewRoot(
                     new SettingsGroup("Root1",
-                        new List<IEntry>
+                        new List<AbstractEntry>
                         {
                             new SettingsGroup(
                                 "Group1",
-                                new List<IEntry>
+                                new List<AbstractEntry>
                                 {
                                     new SettingEntry<string>("G1-String", "Values")
                                 }),

@@ -83,7 +83,7 @@ namespace Settings.Net
         /// <param name="description">The description of the group.</param>
         /// <returns>The path of the successfully added group.</returns>
         /// <exception cref="InvalidOperationException">Throws if a root with the same ID already exists.</exception>
-        public string AddNewRoot(string id, List<IEntry>? members = null, string? description = null) =>
+        public string AddNewRoot(string id, List<AbstractEntry>? members = null, string? description = null) =>
             AddNewRoot(new SettingsGroup(id, members, true) {Description = description});
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace Settings.Net
         /// <param name="path">The path of the entry to get.</param>
         /// <returns>The specified entry. null is returned if not found.</returns>
         /// <exception cref="InvalidOperationException">Throws if part of the path points to an entry rather than a group.</exception>
-        public IEntry? GetEntryByPath(string path)
+        public AbstractEntry? GetEntryByPath(string path)
         {
-            IEntry currEntry;
+            AbstractEntry currEntry;
             try
             {
                 currEntry = this[path.Split('.')[0]];

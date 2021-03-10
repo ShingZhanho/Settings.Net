@@ -10,7 +10,7 @@ namespace Settings.Net
     /// <summary>
     /// Represents a group of entries.
     /// </summary>
-    public sealed class SettingsGroup : IEntry<List<IEntry>>
+    public sealed class SettingsGroup : AbstractEntry<List<AbstractEntry>>
     {
         /// <summary>
         /// Initializes a new group of settings.
@@ -18,14 +18,14 @@ namespace Settings.Net
         /// <param name="id">The ID of the root.</param>
         /// <param name="childrenItems">A list of children items which belongs this root.</param>
         /// <param name="isRoot">Indicates whether this entry is a root.</param>
-        public SettingsGroup(string id, List<IEntry>? childrenItems, bool isRoot = false)
+        public SettingsGroup(string id, List<AbstractEntry>? childrenItems, bool isRoot = false)
         {
             // Check ID status
             if (!IdIsValid(id))
                 throw new InvalidNameException(id,
                     $"An ID cannot contain these characters: '{GetInvalidIdCharsInString(id)}'");
             Id = id;
-            Value = childrenItems ?? new List<IEntry>();
+            Value = childrenItems ?? new List<AbstractEntry>();
             foreach (var entry in Value) entry.Parent = this; // Set the parent to the current instance
             IsRoot = isRoot;
         }
@@ -41,7 +41,7 @@ namespace Settings.Net
 
             Id = ((JObject) jToken).Properties().ToList()[0].Name;
             Description = jToken[Id]!["desc"]!.ToString();
-            var valueList = new List<IEntry>();
+            var valueList = new List<AbstractEntry>();
             // Initializes each item
             foreach (var subItem in jToken[Id]!["contents"]!)
             {
@@ -67,7 +67,7 @@ namespace Settings.Net
         public override string? Description { get; set; }
         public override EntryType Type { get; } = EntryType.Group; // fixed
         public override SettingsGroup? Parent { get; internal set; }
-        public override List<IEntry> Value { get; internal set; }
+        public override List<AbstractEntry> Value { get; internal set; }
         /// <summary>
         /// Gets whether this group has any sub-groups or entries inside.
         /// </summary>
@@ -78,7 +78,7 @@ namespace Settings.Net
         /// </summary>
         public bool IsRoot { get; internal set; }
 
-        public override IEntry this[string id]
+        public override AbstractEntry this[string id]
         {
             get
             {
@@ -128,7 +128,7 @@ namespace Settings.Net
         /// </summary>
         /// <param name="entry">The entry or group object to add.</param>
         /// <returns>The path of the added entry.</returns>
-        public string Add(IEntry entry)
+        public string Add(AbstractEntry entry)
         {
             if (this[entry.Id] != null)
                 // Prevents adding an entry with duplicated ID
@@ -153,8 +153,8 @@ namespace Settings.Net
         /// <param name="id">The ID of the new group.</param>
         /// <param name="children">The children items of this group.</param>
         /// <returns>The path of the new added group.</returns>
-        public string AddGroup(string id, List<IEntry>? children = null) =>
-            Add(new SettingsGroup(id, children ?? new List<IEntry>()));
+        public string AddGroup(string id, List<AbstractEntry>? children = null) =>
+            Add(new SettingsGroup(id, children ?? new List<AbstractEntry>()));
 
         /// <summary>
         /// Removes an entry from the current group.
@@ -206,7 +206,7 @@ namespace Settings.Net
         /// Gets the index of the specified entry.
         /// </summary>
         /// <param name="entry">The entry to get.</param>
-        public int IndexOf(IEntry entry) =>
+        public int IndexOf(AbstractEntry entry) =>
             !Value.Contains(entry)
                 ? throw new ArgumentException("This entry does not belong to the current group.", nameof(entry))
                 : Value.IndexOf(entry);

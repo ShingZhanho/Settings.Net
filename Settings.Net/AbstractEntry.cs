@@ -2,7 +2,7 @@
 
 namespace Settings.Net
 {
-    public abstract class IEntry
+    public abstract class AbstractEntry
     {
         /// <summary>
         /// The ID of the entry. IDs shall not contain any illegal characters.
@@ -34,10 +34,10 @@ namespace Settings.Net
         /// </summary>
         public abstract SettingsGroup? Root { get; }
         
-        public abstract IEntry this[string id] { get; }
+        public abstract AbstractEntry this[string id] { get; }
     }
 
-    public abstract class IEntry<TValue> : IEntry
+    public abstract class AbstractEntry<TValue> : AbstractEntry
     {
         /// <summary>
         /// The value of the entry. A list of objects when the entry is a group.
