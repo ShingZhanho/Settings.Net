@@ -10,7 +10,7 @@ namespace Settings.Net
     /// <summary>
     /// Represents a group of entries.
     /// </summary>
-    public class SettingsGroup : IEntryNode<List<IEntryNode>>
+    public class SettingsGroup : IEntry<List<IEntry>>
     {
         /// <summary>
         /// Initializes a new group of settings.
@@ -18,14 +18,14 @@ namespace Settings.Net
         /// <param name="id">The ID of the root.</param>
         /// <param name="childrenItems">A list of children items which belongs this root.</param>
         /// <param name="isRoot">Indicates whether this entry is a root.</param>
-        public SettingsGroup(string id, List<IEntryNode>? childrenItems, bool isRoot = false)
+        public SettingsGroup(string id, List<IEntry>? childrenItems, bool isRoot = false)
         {
             // Check ID status
             if (!IdIsValid(id))
                 throw new InvalidNameException(id,
                     $"An ID cannot contain these characters: '{GetInvalidIdCharsInString(id)}'");
             Id = id;
-            Value = childrenItems ?? new List<IEntryNode>();
+            Value = childrenItems ?? new List<IEntry>();
             IsRoot = isRoot;
         }
 
@@ -40,7 +40,7 @@ namespace Settings.Net
 
             Id = ((JObject) jToken).Properties().ToList()[0].Name;
             Description = jToken[Id]!["desc"]!.ToString();
-            var valueList = new List<IEntryNode>();
+            var valueList = new List<IEntry>();
             // Initializes each item
             foreach (var subItem in jToken[Id]!["contents"]!)
             {
@@ -66,7 +66,7 @@ namespace Settings.Net
         public string? Description { get; set; }
         public EntryType Type { get; } = EntryType.Group; // fixed
         public SettingsGroup? Parent { get; internal set; }
-        public List<IEntryNode> Value { get; }
+        public List<IEntry> Value { get; }
         /// <summary>
         /// Gets whether this group has any sub-groups or entries inside.
         /// </summary>
@@ -77,7 +77,7 @@ namespace Settings.Net
         /// </summary>
         public bool IsRoot { get; internal set; }
 
-        public IEntryNode this[string id]
+        public IEntry this[string id]
         {
             get
             {
@@ -127,7 +127,7 @@ namespace Settings.Net
         /// </summary>
         /// <param name="entry">The entry or group object to add.</param>
         /// <returns>The path of the added entry.</returns>
-        public string Add(IEntryNode entry)
+        public string Add(IEntry entry)
         {
             if (this[entry.Id] != null)
                 // Prevents adding an entry with duplicated ID
@@ -152,8 +152,8 @@ namespace Settings.Net
         /// <param name="id">The ID of the new group.</param>
         /// <param name="children">The children items of this group.</param>
         /// <returns>The path of the new added group.</returns>
-        public string AddGroup(string id, List<IEntryNode>? children = null) =>
-            Add(new SettingsGroup(id, children ?? new List<IEntryNode>()));
+        public string AddGroup(string id, List<IEntry>? children = null) =>
+            Add(new SettingsGroup(id, children ?? new List<IEntry>()));
 
         /// <summary>
         /// Removes an entry from the current group.
@@ -205,7 +205,7 @@ namespace Settings.Net
         /// Gets the index of the specified entry.
         /// </summary>
         /// <param name="entry">The entry to get.</param>
-        public int IndexOf(IEntryNode entry) =>
+        public int IndexOf(IEntry entry) =>
             !Value.Contains(entry)
                 ? throw new ArgumentException("This entry does not belong to the current group.", nameof(entry))
                 : Value.IndexOf(entry);

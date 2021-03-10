@@ -10,7 +10,7 @@ using Settings.Net.Exceptions;
 namespace Settings.Net
 {
     /// <summary>Represents an entry with value.</summary>
-    public class SettingEntry<TValue> : IEntryNode<TValue>
+    public class SettingEntry<TValue> : IEntry<TValue>
     {
         public SettingEntry(string id, TValue? value)
         {

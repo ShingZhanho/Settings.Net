@@ -2,7 +2,7 @@
 
 namespace Settings.Net
 {
-    public interface IEntryNode
+    public interface IEntry
     {
         /// <summary>
         /// The ID of the entry. IDs shall not contain any illegal characters.
@@ -35,7 +35,7 @@ namespace Settings.Net
         SettingsGroup? Root { get; }
     }
 
-    public interface IEntryNode<out TValue> : IEntryNode
+    public interface IEntry<out TValue> : IEntry
     {
         /// <summary>
         /// The value of the entry. A list of objects when the entry is a group.
