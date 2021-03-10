@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
-    - run: echo ${{github.event_name}}
+    - run: echo ${{github.ref}}
     - name: Restore Packages
       run: dotnet restore
     - name: Add Coverlet.MSBuild package for testing
