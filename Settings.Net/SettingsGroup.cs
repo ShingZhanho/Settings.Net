@@ -10,7 +10,7 @@ namespace Settings.Net
     /// <summary>
     /// Represents a group of entries.
     /// </summary>
-    public class SettingsGroup : IEntry<List<IEntry>>
+    public sealed class SettingsGroup : IEntry<List<IEntry>>
     {
         /// <summary>
         /// Initializes a new group of settings.
@@ -26,6 +26,7 @@ namespace Settings.Net
                     $"An ID cannot contain these characters: '{GetInvalidIdCharsInString(id)}'");
             Id = id;
             Value = childrenItems ?? new List<IEntry>();
+            foreach (var entry in Value) entry.Parent = this; // Set the parent to the current instance
             IsRoot = isRoot;
         }
 
@@ -62,11 +63,11 @@ namespace Settings.Net
             IsRoot = isRoot;
         }
 
-        public string Id { get; }
-        public string? Description { get; set; }
-        public EntryType Type { get; } = EntryType.Group; // fixed
-        public SettingsGroup? Parent { get; internal set; }
-        public List<IEntry> Value { get; }
+        public override string Id { get; }
+        public override string? Description { get; set; }
+        public override EntryType Type { get; } = EntryType.Group; // fixed
+        public override SettingsGroup? Parent { get; internal set; }
+        public override List<IEntry> Value { get; internal set; }
         /// <summary>
         /// Gets whether this group has any sub-groups or entries inside.
         /// </summary>
@@ -77,7 +78,7 @@ namespace Settings.Net
         /// </summary>
         public bool IsRoot { get; internal set; }
 
-        public IEntry this[string id]
+        public override IEntry this[string id]
         {
             get
             {
@@ -90,9 +91,9 @@ namespace Settings.Net
         /// <summary>
         /// Gets the path to the current group.
         /// </summary>
-        public string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
+        public override string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
 
-        public SettingsGroup? Root
+        public override SettingsGroup? Root
         {
             get
             {

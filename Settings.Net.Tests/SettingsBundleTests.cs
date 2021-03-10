@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using NUnit.Framework;
-using NUnit.Framework.Internal;
 
 #pragma warning disable 8602
 
@@ -33,13 +32,14 @@ namespace Settings.Net.Tests
             var bundle = new SettingsBundle();
 
             // Act
-            bundle.AddNewRoot(id, null, description);
+            var path = bundle.AddNewRoot(id, null, description);
             
             // Assert
             Assert.That(bundle, Is.Not.Null);
             Assert.That(bundle.ContainsKey(id), Is.True);
             Assert.That(bundle[id], Is.Not.Null);
             Assert.That(bundle[id].IsRoot, Is.True);
+            Assert.That(path, Is.EqualTo(bundle[id].Path));
         }
 
         [TestCase("SomeId", "Some description"),
@@ -52,12 +52,13 @@ namespace Settings.Net.Tests
             var root = new SettingsGroup(id, null);
 
             // Act
-            bundle.AddNewRoot(root);
+            var path = bundle.AddNewRoot(root);
             
             // Assert
             Assert.That(bundle.ContainsKey(id), Is.True);
             Assert.That(bundle[id], Is.Not.Null);
             Assert.That(bundle[id].IsRoot, Is.True);
+            Assert.That(path, Is.EqualTo(bundle[id].Path));
         }
 
         [Test,
@@ -68,20 +69,9 @@ namespace Settings.Net.Tests
             var bundle = new SettingsBundle();
             const string? id = "rootId";
             bundle.AddNewRoot(id);
-            var exception = new Exception();
             
-            // Act
-            try
-            {
-                bundle.AddNewRoot(id);
-            }
-            catch (Exception e)
-            {
-                exception = e;
-            }
-            
-            // Assert
-            Assert.That(exception, Is.TypeOf(typeof(InvalidOperationException)));
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => bundle.AddNewRoot(id));
         }
 
         [Test,
@@ -91,20 +81,9 @@ namespace Settings.Net.Tests
             // Arrange
             var bundle = new SettingsBundle();
             bundle.AddNewRoot("RealRoot");
-            Exception exception = new();
             
-            // Act
-            try
-            {
-                _ = bundle["FakeRoot"];
-            }
-            catch (Exception e)
-            {
-                exception = e;
-            }
-            
-            // Assert
-            Assert.That(exception, Is.TypeOf(typeof(IndexOutOfRangeException)));
+            // Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => _ = bundle["FakeRoot"]);
         }
 
         [Test,
@@ -131,7 +110,7 @@ namespace Settings.Net.Tests
             var bundle = new SettingsBundle();
             bundle.AddNewRoot(new SettingsGroup(
                 "GroupWithChildren",
-                new List<IEntryNode>
+                new List<IEntry>
                 {
                     new SettingEntry<string>("StringEntry", "Some value")
                 }));
@@ -150,6 +129,41 @@ namespace Settings.Net.Tests
             
             // Act & Assert
             Assert.Throws<IndexOutOfRangeException>(() => bundle.RemoveRoot("This-Is-Not-A-Root"));
+        }
+
+        [Test]
+        public void GetEntryByPath_ValidPath_CorrespondingEntry()
+        {
+            // Arrange
+            var expectedEntry = GetEntryByPathTestBundle["Root1"]["Group1"]["G1-String"];
+            
+            // Act
+            var actualEntry = GetEntryByPathTestBundle.GetEntryByPath("Root1.Group1.G1-String");
+            
+            // Assert
+            Assert.That(actualEntry, Is.Not.Null);
+            Assert.That(actualEntry.Path, Is.EqualTo("Root1.Group1.G1-String"));
+        }
+
+        private static SettingsBundle GetEntryByPathTestBundle 
+        {
+            get
+            {
+                var bundle = new SettingsBundle();
+                bundle.AddNewRoot(
+                    new SettingsGroup("Root1",
+                        new List<IEntry>
+                        {
+                            new SettingsGroup(
+                                "Group1",
+                                new List<IEntry>
+                                {
+                                    new SettingEntry<string>("G1-String", "Values")
+                                }),
+                            new SettingEntry<int>("R1-Int", 123)
+                        }));
+                return bundle;
+            }
         }
     }
 }

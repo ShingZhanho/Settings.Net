@@ -121,12 +121,13 @@ namespace Settings.Net
             try
             {
                 currEntry = this[path.Split('.')[0]];
-                for (var index = 1; index < path.Split('.').Length - 1; index++)
+                for (var index = 1; index < path.Split('.').Length; index++)
                 {
                     if (currEntry.Type != EntryType.Group)
                         throw new InvalidOperationException(
                             $"This part of the path points to an entry, not a group: '{currEntry.Path}'");
-                    currEntry = ((SettingsGroup)currEntry)[path.Split('.')[index]];
+                    if (index != path.Split('.').Length)
+                        currEntry = ((SettingsGroup)currEntry)[path.Split('.')[index]];
                 }
             }
             catch (ArgumentOutOfRangeException)

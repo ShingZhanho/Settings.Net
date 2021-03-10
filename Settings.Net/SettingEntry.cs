@@ -10,7 +10,7 @@ using Settings.Net.Exceptions;
 namespace Settings.Net
 {
     /// <summary>Represents an entry with value.</summary>
-    public class SettingEntry<TValue> : IEntry<TValue>
+    public sealed class SettingEntry<TValue> : IEntry<TValue>
     {
         public SettingEntry(string id, TValue? value)
         {
@@ -51,14 +51,17 @@ namespace Settings.Net
             Description = jToken[Id]!["desc"]!.ToString();
         }
 
-        public string Id { get; }
-        public string? Description { get; set; }
-        public TValue? Value { get; internal set; }
-        public EntryType Type { get; }
-        public SettingsGroup? Parent { get; internal set; }
-        public string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
+        public override string Id { get; }
+        public override string? Description { get; set; }
+        public override TValue? Value { get; internal set; }
+        public override EntryType Type { get; }
+        public override SettingsGroup? Parent { get; internal set; }
+        public override string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
+        [Obsolete("This is obsolete.", true)]
+        public override IEntry this[string id] =>
+            throw new NotImplementedException("Using indexer of an entry is invalid. This will be refactored later.");
 
-        public SettingsGroup? Root
+        public override SettingsGroup? Root
         {
             get
             {
