@@ -8,8 +8,6 @@ jobs:
   generate-report:
     
     runs-on: ubuntu-latest
-    env:
-      CODECOV_UPLOAD_TOKEN: 3b2af18f-3772-424a-8c52-e6bdcd6e564c
     if: ${{ ! contains(github.event.head_commit.message, 'skip@codecov') && ! contains(github.event.head_commit.message, 'skip@all') }}
     
     steps:
@@ -18,6 +16,7 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 5.0.x
+    - run: echo ${{github.event_name}}
     - name: Restore Packages
       run: dotnet restore
     - name: Add Coverlet.MSBuild package for testing
@@ -29,7 +28,7 @@ jobs:
     - name: Add execution permission
       run: chmod +x codecov
     - name: Upload report
-      run: ./codecov -f './Settings.Net.Tests/Code-Cov.xml' -t $CODECOV_UPLOAD_TOKEN
+      run: ./codecov -f './Settings.Net.Tests/Code-Cov.xml'
     - name: Upload artifact for deployment
       uses: actions/upload-artifact@v2
       with:
