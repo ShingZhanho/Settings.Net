@@ -91,7 +91,7 @@ namespace Settings.Net
         /// </summary>
         /// <param name="rootId">The ID of the entry to remove.</param>
         /// <param name="recursive">Indicating whether to remove the group recursively.</param>
-        /// <exception cref="ArgumentOutOfRangeException">Throws if the given ID does not match any group.</exception>
+        /// <exception cref="IndexOutOfRangeException">Throws if the given ID does not match any group.</exception>
         /// <exception cref="InvalidOperationException">Throws if the group being removed has children but parameter recursive is set to false.</exception>
         public void RemoveRoot(string rootId, bool recursive = false)
         {
@@ -130,7 +130,7 @@ namespace Settings.Net
                         currEntry = ((SettingsGroup)currEntry)[path.Split('.')[index]];
                 }
             }
-            catch (ArgumentOutOfRangeException)
+            catch (IndexOutOfRangeException)
             {
                 return null;
             }

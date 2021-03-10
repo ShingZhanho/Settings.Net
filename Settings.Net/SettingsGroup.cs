@@ -84,7 +84,7 @@ namespace Settings.Net
             {
                 foreach (var item in Value.Where(item => item.Id == id))
                     return item;
-                throw new ArgumentOutOfRangeException(nameof(id), "Specified ID could not be found.");
+                throw new IndexOutOfRangeException("Specified ID could not be found.");
             }
         }
 

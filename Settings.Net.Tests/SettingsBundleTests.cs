@@ -131,7 +131,8 @@ namespace Settings.Net.Tests
             Assert.Throws<IndexOutOfRangeException>(() => bundle.RemoveRoot("This-Is-Not-A-Root"));
         }
 
-        [Test]
+        [Test,
+         Description("Gets an entry by its path.")]
         public void GetEntryByPath_ValidPath_CorrespondingEntry()
         {
             // Arrange
@@ -142,7 +143,33 @@ namespace Settings.Net.Tests
             
             // Assert
             Assert.That(actualEntry, Is.Not.Null);
-            Assert.That(actualEntry.Path, Is.EqualTo("Root1.Group1.G1-String"));
+            Assert.That(actualEntry.Path, Is.EqualTo(expectedEntry.Path));
+            Assert.That(actualEntry.ToString(), Is.EqualTo(expectedEntry.ToString()));
+        }
+
+        [Test,
+         Description("Gets an entry by path. The middle of the path points to an entry. InvalidOperationException is expected.")]
+        public void GetEntryByPath_PartOfPathInvalid_InvalidOperationException()
+        {
+            // Arrange
+            const string? invalidPath = "Root1.R1-Int.G1-String";
+            
+            // Act & Assert
+            Assert.Throws<InvalidOperationException>(() => GetEntryByPathTestBundle.GetEntryByPath(invalidPath));
+        }
+
+        [Test,
+         Description("Gets an entry by path. The path points to an entry that does not exist. Null should be returned")]
+        public void GetEntryByPath_EntryNotExisted_Null()
+        {
+            // Arrange
+            const string? invalidPath = "Root1.ThisIsNotAPath";
+            
+            // Act
+            var actualResult = GetEntryByPathTestBundle.GetEntryByPath(invalidPath);
+            
+            // Assert
+            Assert.That(actualResult, Is.Null);
         }
 
         private static SettingsBundle GetEntryByPathTestBundle 
