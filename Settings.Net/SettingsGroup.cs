@@ -40,21 +40,26 @@ namespace Settings.Net
             InternalEnsureJsonState(jToken);
 
             Id = ((JObject) jToken).Properties().ToList()[0].Name;
-            Description = jToken[Id]!["desc"]!.ToString();
+            Description = jToken[Id]!["desc"] is null
+                ? null
+                : jToken[Id]!["desc"]!.ToString();
+            
             var valueList = new List<AbstractEntry>();
+            
             // Initializes each item
             foreach (var subItem in jToken[Id]!["contents"]!)
             {
                 var subId = ((JObject) subItem).Properties().ToList()[0].Name;
                 // If the item is a group
                 if (subItem[subId]!["type"]!.ToString() == EntryType.Group.ToString())
-                    valueList.Add(new SettingsGroup(subItem));
+                    valueList.Add(new SettingsGroup(subItem){Parent = this});
                 // If the item is not a group
                 valueList.Add(subItem[subId]!["type"]!.ToString() switch
                 {
-                    nameof(EntryType.String) => new SettingEntry<string>(subItem),
-                    nameof(EntryType.Int) => new SettingEntry<int>(subItem),
-                    nameof(EntryType.Bool) => new SettingEntry<bool>(subItem),
+                    nameof(EntryType.String) => new SettingEntry<string>(subItem){Parent = this},
+                    nameof(EntryType.Int) => new SettingEntry<int>(subItem){Parent = this},
+                    nameof(EntryType.Bool) => new SettingEntry<bool>(subItem){Parent = this},
+                    nameof(EntryType.Group) => new SettingsGroup(subItem){Parent = this},
                     _ => throw new ArgumentOutOfRangeException(null, "Unknown Type.")
                 });
             }

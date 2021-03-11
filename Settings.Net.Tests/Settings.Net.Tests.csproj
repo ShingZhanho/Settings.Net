@@ -21,6 +21,9 @@
       <None Update="TestData\NormalSettingsFile.sj">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\SettingsBundle\NormalSettingsFile.sj">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

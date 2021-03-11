@@ -41,14 +41,18 @@ namespace Settings.Net
             try
             {
                 // Try convert the json value to the TValue type.
-                Value = (TValue) Convert.ChangeType(jToken[Id]!["value"]!.ToString(), typeof(TValue));
+                Value = jToken[Id]!["value"]!.Type == JTokenType.Null
+                    ? default
+                    : (TValue) Convert.ChangeType(jToken[Id]!["value"]!.ToString(), typeof(TValue));
             }
-            catch (InvalidCastException)
+            catch (FormatException)
             {
                 Console.WriteLine("Failed to convert values.");
                 throw;
             }
-            Description = jToken[Id]!["desc"]!.ToString();
+            Description = jToken[Id]!["desc"] is null
+                ? null
+                : jToken[Id]!["desc"]!.ToString();
         }
 
         public override string Id { get; }
@@ -164,12 +168,12 @@ namespace Settings.Net
             };
             try
             {
-                if (jToken[id]!["contents"]!.Type != tokenTypeDictionary[typeof(TValue)] &&
-                    jToken[id]!["contents"]!.Type != JTokenType.Null)
+                if (jToken[id]!["value"]!.Type != tokenTypeDictionary[typeof(TValue)] &&
+                    jToken[id]!["value"]!.Type != JTokenType.Null)
                 {
                     throw new InvalidEntryValueException(
                         $"{tokenTypeDictionary[typeof(TValue)]}' or '{JTokenType.Null}",
-                        jToken[id]!["contents"]!.Type.ToString(),
+                        jToken[id]!["value"]!.Type.ToString(),
                         "The content's type does not match the given type in Type key.");
                 }
             }

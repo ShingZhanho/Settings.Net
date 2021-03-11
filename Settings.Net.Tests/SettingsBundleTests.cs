@@ -23,6 +23,17 @@ namespace Settings.Net.Tests
             Assert.That(result.Roots.Count, Is.EqualTo(0));
         }
 
+        [Test,
+         Description("Construct a SettingBundle with a file.")]
+        public void Ctor_SettingsFilePath_Successful()
+        {
+            // Act
+            var result = new SettingsBundle(TestData.SettingsBundleData.NormalJsonFilePath);
+            
+            // Assert
+            Assert.That(result, Is.Not.Null);
+        }
+
         [TestCase("SomeId", "Some description"),
          TestCase("SomeMoreId", null),
          Description("Add a new root to a bundle, no exceptions should be thrown.")]

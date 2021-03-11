@@ -40,7 +40,7 @@ namespace Settings.Net
             { // Error while reading JSON.
                 throw new IOException("Error while trying to read the file.", e);
             }
-            PrivateConstructor(jsonString);
+            PrivateConstructor(JToken.Parse(jsonString));
         }
 
         public SettingsBundle(JToken jToken) => PrivateConstructor(jToken);
@@ -155,10 +155,10 @@ namespace Settings.Net
         {
             // Check json data for errors
             // Check "metadata" key
-            if (!((JObject) jToken).ContainsKey("metadata"))
+            if (!(jToken as JObject)!.ContainsKey("metadata"))
                 throw new InvalidEntryTokenException("metadata", "The file does not have the essential key 'metadata'");
             // Check "data" key
-            if (!((JObject) jToken).ContainsKey("data"))
+            if (!(jToken as JObject)!.ContainsKey("data"))
                 throw new InvalidEntryTokenException("data", "The file does not have the essential key 'data'");
         }
     }
