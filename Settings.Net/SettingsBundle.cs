@@ -24,8 +24,12 @@ namespace Settings.Net
         /// <param name="filePath">The path to the .sbd file.</param>
         public SettingsBundle(string filePath)
         {
+            if (filePath == string.Empty)
+                throw new ArgumentException("File path cannot be null or empty.", nameof(filePath));
+            
             if (!File.Exists(filePath))
                 throw new FileNotFoundException("The specified file could not be found.", filePath);
+            
             string jsonString;
             try
             {
@@ -40,6 +44,7 @@ namespace Settings.Net
             { // Error while reading JSON.
                 throw new IOException("Error while trying to read the file.", e);
             }
+            
             PrivateConstructor(JToken.Parse(jsonString));
         }
 

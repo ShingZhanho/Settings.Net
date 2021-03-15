@@ -21,10 +21,10 @@
       <None Update="TestData\NormalSettingsFile.sj">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="TestData\SettingsBundle\NormalSettingsFile.sj">
+      <None Update="TestData\SettingsBundle\NormalSettingsFile.sbd">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
-      <None Update="TestData\SettingsBundle\Error_InvalidJson.sj">
+      <None Update="TestData\SettingsBundle\Error_InvalidJson.sbd">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>
