@@ -1,6 +1,7 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 using NUnit.Framework;
 
 #pragma warning disable 8602
@@ -32,6 +33,15 @@ namespace Settings.Net.Tests
             
             // Assert
             Assert.That(result, Is.Not.Null);
+        }
+
+        [Test,
+         Description("Construct a SettingsBundle with invalid JSON data. JsonReaderException should be thrown.")]
+        public void Ctor_InvalidJsonString_JsonReaderException()
+        {
+            // Act & Assert
+            Assert.Throws<JsonReaderException>(
+                () => _ = new SettingsBundle(TestData.SettingsBundleData.InvalidJsonFilePath));
         }
 
         [TestCase("SomeId", "Some description"),

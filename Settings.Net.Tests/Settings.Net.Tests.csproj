@@ -24,6 +24,9 @@
       <None Update="TestData\SettingsBundle\NormalSettingsFile.sj">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\SettingsBundle\Error_InvalidJson.sj">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
