@@ -53,32 +53,6 @@ namespace Settings.Net.Tests
         public void Ctor_NonExistingPath_FileNotFoundException() =>
             Assert.Throws<FileNotFoundException>(() => _ = new SettingsBundle("This/path/does/not/exist///"));
 
-        [Test,
-         Description("Try to construct from a unreadable file. UnauthorizedAccessException is expected.")]
-        public void Ctor_FileUnreadable_UnauthorizedAccessException()
-        {
-            // Arrange
-            static void RemoveFileRights(string fileName, string account,
-                FileSystemRights rights, AccessControlType controlType)
-            {
-                FileSecurity fSecurity = new FileInfo(fileName).GetAccessControl();
-                fSecurity.AddAccessRule(new FileSystemAccessRule(account,
-                    rights, controlType));
-                new FileInfo(fileName).SetAccessControl(fSecurity);
-            }
-            // Remove the right of reading the file.
-            RemoveFileRights(TestData.SettingsBundleData.UnreadableFilePath,
-                $"{Environment.UserDomainName}\\{Environment.UserName}",
-                FileSystemRights.FullControl,
-                AccessControlType.Deny);
-            
-            // Act & Assert
-            Assert.Throws<UnauthorizedAccessException>(() =>
-                _ = new SettingsBundle(TestData.SettingsBundleData.UnreadableFilePath));
-        }
-
-        
-        
         [TestCase("SomeId", "Some description"),
          TestCase("SomeMoreId", null),
          Description("Add a new root to a bundle, no exceptions should be thrown.")]
