@@ -31,6 +31,12 @@
       <None Update="TestData\SettingsBundle\Error_Unreadable.sbd">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\SettingsBundle\Error_WithoutData.sbd">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\SettingsBundle\Error_WithoutMetadata.sbd">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

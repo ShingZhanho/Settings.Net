@@ -72,11 +72,11 @@ namespace Settings.Net
         public override string? Description { get; set; }
         public override EntryType Type { get; } = EntryType.Group; // fixed
         public override SettingsGroup? Parent { get; internal set; }
-        public override List<AbstractEntry> Value { get; internal set; }
+        public override List<AbstractEntry>? Value { get; internal set; }
         /// <summary>
         /// Gets whether this group has any sub-groups or entries inside.
         /// </summary>
-        public bool HasChildren => Value.Count > 0;
+        public bool HasChildren => Value!.Count > 0;
 
         /// <summary>
         /// Indicating whether the current group is a root.
@@ -87,7 +87,7 @@ namespace Settings.Net
         {
             get
             {
-                foreach (var item in Value.Where(item => item.Id == id))
+                foreach (var item in Value!.Where(item => item.Id == id))
                     return item;
                 throw new IndexOutOfRangeException("Specified ID could not be found.");
             }
@@ -139,7 +139,7 @@ namespace Settings.Net
                 // Prevents adding an entry with duplicated ID
                 throw new InvalidOperationException(
                     $"An entry with the same ID '{entry.Id}' already exists in this group.");
-            Value.Add(entry);
+            Value!.Add(entry);
             return this[entry.Id].Path;
         }
 
@@ -178,7 +178,7 @@ namespace Settings.Net
             if (this[id].Type == EntryType.Group)
                 throw new InvalidOperationException(
                     "The specified ID is a group and cannot be removed with RemoveEntry(). Use RemoveGroup() instead");
-            Value.Remove(this[id]);
+            Value!.Remove(this[id]);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Settings.Net
                 // Has values but recursive option is false
                 throw new InvalidOperationException(
                     "The group specified has values. Set parameter 'recursive' to true to remove this group recursively.");
-            Value.Remove(this[id]);
+            Value!.Remove(this[id]);
         }
 
         /// <summary>
@@ -212,7 +212,7 @@ namespace Settings.Net
         /// </summary>
         /// <param name="entry">The entry to get.</param>
         public int IndexOf(AbstractEntry entry) =>
-            !Value.Contains(entry)
+            !Value!.Contains(entry)
                 ? throw new ArgumentException("This entry does not belong to the current group.", nameof(entry))
                 : Value.IndexOf(entry);
 

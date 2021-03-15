@@ -61,7 +61,7 @@ namespace Settings.Net
         public override EntryType Type { get; }
         public override SettingsGroup? Parent { get; internal set; }
         public override string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
-        [Obsolete("This is obsolete.", true)]
+        [Obsolete("This is obsolete. Using indexer of an entry is invalid. This will be refactored later.", true)]
         public override AbstractEntry this[string id] =>
             throw new NotImplementedException("Using indexer of an entry is invalid. This will be refactored later.");
 

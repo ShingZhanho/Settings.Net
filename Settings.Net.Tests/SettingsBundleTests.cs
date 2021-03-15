@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Security.AccessControl;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
+using Settings.Net.Exceptions;
 
 #pragma warning disable 8602
 
@@ -52,6 +53,34 @@ namespace Settings.Net.Tests
                      "FileNotFoundException is expected.")]
         public void Ctor_NonExistingPath_FileNotFoundException() =>
             Assert.Throws<FileNotFoundException>(() => _ = new SettingsBundle("This/path/does/not/exist///"));
+
+        [Test,
+         Description("Construct from JSON that does not contain a 'metadata' key.")]
+        public void Ctor_JsonWithoutMetadata_InvalidEntryTokenException() =>
+            Assert.Throws<InvalidEntryTokenException>(() =>
+                _ = new SettingsBundle(TestData.SettingsBundleData.JsonWithoutMetadataFilePath));
+        
+        [Test,
+         Description("Construct from JSON that does not contain a 'data' key.")]
+        public void Ctor_JsonWithoutData_InvalidEntryTokenException() =>
+            Assert.Throws<InvalidEntryTokenException>(() =>
+                _ = new SettingsBundle(TestData.SettingsBundleData.JsonWithoutDataFilePath));
+
+        [Test,
+         Description("Construct from valid JToken.")]
+        public void Ctor_NormalJToken_Successful()
+        {
+            // Arrange
+            var json = File.ReadAllText(TestData.SettingsBundleData.NormalJsonFilePath);
+            var token = JToken.Parse(json);
+            
+            // Act
+            var result = new SettingsBundle(token);
+            
+            // Assert
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Description, Is.Not.Null);
+        }
 
         [TestCase("SomeId", "Some description"),
          TestCase("SomeMoreId", null),

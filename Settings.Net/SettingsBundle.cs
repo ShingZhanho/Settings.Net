@@ -44,7 +44,8 @@ namespace Settings.Net
             PrivateConstructor(JToken.Parse(jsonString));
         }
 
-        public SettingsBundle(JToken jToken) => PrivateConstructor(jToken);
+        public SettingsBundle(JToken jToken) => 
+            PrivateConstructor(jToken);
 
         public SettingsGroup this[string id]
         {
