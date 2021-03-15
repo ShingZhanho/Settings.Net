@@ -40,9 +40,9 @@ namespace Settings.Net
             { // Invalid Json
                 throw new JsonReaderException("Not a valid JSON data.", e);
             }
-            catch (Exception e)
+            catch (UnauthorizedAccessException e)
             { // Error while reading JSON.
-                throw new IOException("Error while trying to read the file.", e);
+                throw new UnauthorizedAccessException("Error while trying to read the file.", e);
             }
             
             PrivateConstructor(JToken.Parse(jsonString));

@@ -15,6 +15,7 @@ namespace Settings.Net.Tests
 
             public static string NormalJsonFilePath => Path.Combine(SettingsBundleDataFolder, "NormalSettingsFile.sbd");
             public static string InvalidJsonFilePath => Path.Combine(SettingsBundleDataFolder, "Error_InvalidJson.sbd");
+            public static string UnreadableFilePath => Path.Combine(SettingsBundleDataFolder, "Error_Unreadable.sbd");
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿#nullable enable
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Security.AccessControl;
 using Newtonsoft.Json;
 using NUnit.Framework;
 
@@ -37,13 +39,46 @@ namespace Settings.Net.Tests
 
         [Test,
          Description("Construct a SettingsBundle with invalid JSON data. JsonReaderException should be thrown.")]
-        public void Ctor_InvalidJsonString_JsonReaderException()
-        {
-            // Act & Assert
+        public void Ctor_InvalidJsonString_JsonReaderException() =>
             Assert.Throws<JsonReaderException>(
                 () => _ = new SettingsBundle(TestData.SettingsBundleData.InvalidJsonFilePath));
+
+        [Test,
+         Description("Construct a SettingsBundle with empty file path. Expected ArgumentException.")]
+        public void Ctor_EmptyPath_ArgumentException() => Assert.Throws<ArgumentException>(() => _ = new SettingsBundle(string.Empty));
+
+        [Test,
+         Description("Construct a SettingsBundle with path that points to a file that is not exist. " +
+                     "FileNotFoundException is expected.")]
+        public void Ctor_NonExistingPath_FileNotFoundException() =>
+            Assert.Throws<FileNotFoundException>(() => _ = new SettingsBundle("This/path/does/not/exist///"));
+
+        [Test,
+         Description("Try to construct from a unreadable file. UnauthorizedAccessException is expected.")]
+        public void Ctor_FileUnreadable_UnauthorizedAccessException()
+        {
+            // Arrange
+            static void RemoveFileRights(string fileName, string account,
+                FileSystemRights rights, AccessControlType controlType)
+            {
+                FileSecurity fSecurity = new FileInfo(fileName).GetAccessControl();
+                fSecurity.AddAccessRule(new FileSystemAccessRule(account,
+                    rights, controlType));
+                new FileInfo(fileName).SetAccessControl(fSecurity);
+            }
+            // Remove the right of reading the file.
+            RemoveFileRights(TestData.SettingsBundleData.UnreadableFilePath,
+                $"{Environment.UserDomainName}\\{Environment.UserName}",
+                FileSystemRights.FullControl,
+                AccessControlType.Deny);
+            
+            // Act & Assert
+            Assert.Throws<UnauthorizedAccessException>(() =>
+                _ = new SettingsBundle(TestData.SettingsBundleData.UnreadableFilePath));
         }
 
+        
+        
         [TestCase("SomeId", "Some description"),
          TestCase("SomeMoreId", null),
          Description("Add a new root to a bundle, no exceptions should be thrown.")]
