@@ -3,60 +3,29 @@ name: Build
 on: [push]
 
 jobs:
-  ubuntu:
-
-    runs-on: ubuntu-latest
-    if: ${{ ! contains(github.event.head_commit.message, 'skip@build.ubuntu') && ! contains(github.event.head_commit.message, 'skip@all') }}
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Run tests
-      run: dotnet test --no-build
-
-
-  windows:
-    
-    runs-on: windows-latest
-    if: ${{ ! contains(github.event.head_commit.message, 'skip@build.windows') && ! contains(github.event.head_commit.message, 'skip@all') }}
+  test:
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
     
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Clean NuGet Cache
-      run: dotnet clean && dotnet nuget locals all --clear
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Run tests
-      run: dotnet test --no-build
- 
- 
-  macos:
-
-    runs-on: macos-latest
-    if: ${{ ! contains(github.event.head_commit.message, 'skip@build.macos') && ! contains(github.event.head_commit.message, 'skip@all') }}
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 5.0.x
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build --no-restore
-    - name: Run tests
-      run: dotnet test --no-build
+      - uses: actions/checkout@v2
+      
+      - name: Setup .Net
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 5.0.x
+      
+      - name: Clean .Net & Nuget Cache on Windows
+        run: dotnet clean
+        if: ${{ matrix.os == 'windows.latest' }}
+        
+      - name: Restore dependencies
+        run: dotnet restore
+            
+      - name: Build
+        run: dotnet build --no-restore
+            
+      - name: Run tests
+        run: dotnet test --no-build
