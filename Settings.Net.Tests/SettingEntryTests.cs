@@ -7,6 +7,20 @@ namespace Settings.Net.Tests
 {
     public class SettingEntryTests
     {
+        [TestCase("stringEntry", "value", "This is a string entry."),
+         TestCase("intEntry", 689),
+         TestCase("boolEntry", false, "This is a bool entry.")]
+        public void Ctor_Data_Successful<T>(string id, T value, string description = null)
+        {
+            // Act
+            var result = new SettingEntry<T>(id, value) {Description = description};
+            
+            // Assert
+            Assert.That(result.Id, Is.EqualTo(id));
+            Assert.That(result.Value, Is.EqualTo(value));
+            Assert.That(result.Description, Is.EqualTo(description));
+        }
+        
         [TestCase("invalid.string.id", "value"),
          TestCase("some more invalid id", false),
          TestCase("even more.id", 5),
