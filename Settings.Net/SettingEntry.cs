@@ -12,6 +12,13 @@ namespace Settings.Net
     /// <summary>Represents an entry with value.</summary>
     public sealed class SettingEntry<TValue> : AbstractEntry<TValue>
     {
+        /// <summary>
+        /// Construct an entry with an ID and its value.
+        /// </summary>
+        /// <param name="id">The ID of this entry.</param>
+        /// <param name="value">The value of this entry. Its type may only be string, int or bool.</param>
+        /// <exception cref="ArgumentOutOfRangeException">Throws if the given type is none of string, int or bool.</exception>
+        /// <exception cref="InvalidNameException">Throws if the given ID contains invalid characters.</exception>
         public SettingEntry(string id, TValue? value)
         {
             // Check for accepted types
