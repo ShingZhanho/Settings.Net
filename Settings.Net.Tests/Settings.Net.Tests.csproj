@@ -36,6 +36,9 @@
       <None Update="TestData\SettingsBundle\Error_WithoutMetadata.sbd">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\SettingEntry\Error_FormatError.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

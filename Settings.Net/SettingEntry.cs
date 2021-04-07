@@ -30,7 +30,7 @@ namespace Settings.Net
                 throw new InvalidNameException(nameof(id), "IDs should not contain chars: " +
                                                            $"'{GetInvalidIdCharsInString(id)}'");
             // Assign Type property
-            Type = GetTypeEnum<TValue>() ?? throw new ArgumentOutOfRangeException(nameof(TValue), "This type is not accepted");
+            Type = GetTypeEnum<TValue>();
             // Assign properties
             Id = id;
             Value = value;
@@ -41,22 +41,15 @@ namespace Settings.Net
             InternalEnsureJsonState(jToken);
 
             Id = ((JObject) jToken).Properties().ToList()[0].Name;
+            
             Type = GetTypeEnum(jToken[Id]!["type"]!.Type)
                    ?? throw new ArgumentOutOfRangeException(jToken[Id]!["type"]!.Type.ToString(),
                        "This type is not accepted.");
-            // Assign value
-            try
-            {
-                // Try convert the json value to the TValue type.
-                Value = jToken[Id]!["value"]!.Type == JTokenType.Null
-                    ? default
-                    : (TValue) Convert.ChangeType(jToken[Id]!["value"]!.ToString(), typeof(TValue));
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Failed to convert values.");
-                throw;
-            }
+            
+            Value = jToken[Id]!["value"]!.Type == JTokenType.Null
+                ? default
+                : (TValue) Convert.ChangeType(jToken[Id]!["value"]!.ToString(), typeof(TValue));
+            
             Description = jToken[Id]!["desc"] is null
                 ? null
                 : jToken[Id]!["desc"]!.ToString();
@@ -106,15 +99,13 @@ namespace Settings.Net
         /// <summary>
         /// Gets the corresponding enum of the given type. Null is returned if no enum matches.
         /// </summary>
-        private static EntryType? GetTypeEnum<T>()
+        private static EntryType GetTypeEnum<T>()
         {
             var enumDict = new Dictionary<Type, EntryType>
             {
                 {typeof(string), EntryType.String}, {typeof(int), EntryType.Int}, {typeof(bool), EntryType.Bool}
             };
-            return enumDict.ContainsKey(typeof(T))
-                ? enumDict[typeof(T)]
-                : null;
+            return enumDict[typeof(T)];
         }
 
         /// <summary>
