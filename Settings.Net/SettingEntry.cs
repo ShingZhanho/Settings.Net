@@ -42,9 +42,9 @@ namespace Settings.Net
 
             Id = ((JObject) jToken).Properties().ToList()[0].Name;
             
-            Type = GetTypeEnum(jToken[Id]!["type"]!.Type)
-                   ?? throw new ArgumentOutOfRangeException(jToken[Id]!["type"]!.Type.ToString(),
-                       "This type is not accepted.");
+            Type = GetTypeEnum(jToken[Id]!["value"]!.Type) 
+                   ?? GetTypeEnum(jToken[Id]!["type"]!.ToString())
+                   ?? throw new ArgumentOutOfRangeException(nameof(Type), "The type of this entry could not be determined.");
             
             Value = jToken[Id]!["value"]!.Type == JTokenType.Null
                 ? default
@@ -61,9 +61,10 @@ namespace Settings.Net
         public override EntryType Type { get; }
         public override SettingsGroup? Parent { get; internal set; }
         public override string Path => Parent == null ? Id : $"{Parent.Path}.{Id}";
-        [Obsolete("This is obsolete. Using indexer of an entry is invalid. This will be refactored later.", true)]
-        public override AbstractEntry this[string id] =>
-            throw new NotImplementedException("Using indexer of an entry is invalid. This will be refactored later.");
+        /// <summary>
+        /// Using indexer for a SettingEntry will always return null;
+        /// </summary>
+        public override AbstractEntry this[string id] => null;
 
         public override SettingsGroup? Root
         {
@@ -118,6 +119,18 @@ namespace Settings.Net
                 JTokenType.Integer => GetTypeEnum<int>(),
                 JTokenType.Boolean => GetTypeEnum<bool>(),
                 _ => null
+            };
+
+        private static EntryType? GetTypeEnum(string typeKey) =>
+#pragma warning disable 8509
+            // Already checked with InternalEnsureJsonState()
+            // Will have only three possibilities
+            typeKey switch
+#pragma warning restore 8509
+            {
+                "String" => GetTypeEnum<string>(),
+                "Int" => GetTypeEnum<int>(),
+                "Bool" => GetTypeEnum<bool>()
             };
 
         private static void InternalEnsureJsonState(JToken jToken)
