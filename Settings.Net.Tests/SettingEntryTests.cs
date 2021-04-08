@@ -80,11 +80,20 @@ namespace Settings.Net.Tests
             Assert.Throws<InvalidNameException>(Construct);
         }
 
-        [Test]
+        [Test,
+         Description("Parse an entry without a type key. InvalidEntryTokenException is expected.")]
         public void Ctor_JsonEntryWithoutTypeKey_InvalidEntryTokenException() =>
             Assert.Throws<InvalidEntryTokenException>(() =>
                 _ = new SettingEntry<string>(
                     JToken.Parse(
                         File.ReadAllText(TestData.SettingEntry.StringEntryWithoutTypeKeyJsonPath))));
+        
+        [Test,
+         Description("Parse an int entry with string parameter. EntryTypeNotMatchException is expected.")]
+        public void Ctor_TypeParameterAndJsonTypeKeyNotMatch_EntryTypeNotMatchException() =>
+            Assert.Throws<EntryTypeNotMatchException>(() =>
+                _ = new SettingEntry<string>(
+                    JToken.Parse(
+                        File.ReadAllText(TestData.SettingEntry.NormalIntEntryJsonPath))));
     }
 }

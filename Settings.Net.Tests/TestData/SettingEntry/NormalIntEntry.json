@@ -1,0 +1,7 @@
+﻿{
+  "normal-int-entry": {
+    "type": "Int",
+    "desc": "This is a normal int entry.",
+    "value": 2342
+  }
+}

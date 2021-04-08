@@ -16,6 +16,8 @@ namespace Settings.Net.Tests
             public static string BoolEntryWithInvalidJsonPath => Path.Combine(SettingEntryDataFolder, "Error_BoolEntryWithInvalidId.json");
 
             public static string StringEntryWithoutTypeKeyJsonPath => Path.Combine(SettingEntryDataFolder, "Error_StringEntryWithoutTypeKey.json");
+            
+            public static string NormalIntEntryJsonPath => Path.Combine(SettingEntryDataFolder, "NormalIntEntry.json");
         }
     }
 }
