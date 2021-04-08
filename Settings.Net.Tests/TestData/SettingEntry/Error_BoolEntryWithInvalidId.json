@@ -1,0 +1,6 @@
+{
+    "this is an invalid.id": {
+        "type": "Bool",
+        "value": true
+    }
+}

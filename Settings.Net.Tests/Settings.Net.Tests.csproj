@@ -39,6 +39,18 @@
       <None Update="TestData\SettingEntry\Error_FormatError.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\SettingEntry\Error_InvalidId.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\SettingEntry\Error_BoolEntryWithInvalidId.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\SettingEntry\Error_IntEntryWithInvalidId.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\SettingEntry\Error_StringEntryWithInvalidId.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

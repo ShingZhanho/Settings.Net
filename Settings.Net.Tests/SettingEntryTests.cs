@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 using NUnit.Framework;
 using Settings.Net.Exceptions;
 
@@ -38,6 +41,42 @@ namespace Settings.Net.Tests
             
             // Assert
             Assert.Throws<ArgumentOutOfRangeException>(() => _ = new SettingEntry<string[]>("id", value));
+        }
+        
+        public static IEnumerable<TestCaseData> InvalidIdTestCases
+        {
+            get
+            {
+                yield return new TestCaseData(TestData.SettingEntry.StringEntryWithInvalidIdJsonPath);
+                yield return new TestCaseData(TestData.SettingEntry.IntEntryWithInvalidIdJsonPath);
+                yield return new TestCaseData(TestData.SettingEntry.BoolEntryWithInvalidJsonPath);
+            }
+        }
+        
+        [TestCaseSource(nameof(InvalidIdTestCases))]
+        public void Ctor_InvalidIdJsonFile_InvalidNameException(string jsonFile)
+        {
+            // Arrange
+            var jToken = JToken.Parse(File.ReadAllText(jsonFile));
+            var type = jToken
+                [((JObject) jToken).Properties().ToList()[0].Name]! // Gets the ID of the entry
+                ["type"]!.ToString(); // Gets the type of the entry
+            
+            // local method for constructing a SettingEntry
+            void Construct()
+            {
+                AbstractEntry result = type switch
+                {
+                    "String" => new SettingEntry<string>(jToken),
+                    "Int" => new SettingEntry<int>(jToken),
+                    "Bool" => new SettingEntry<bool>(jToken),
+                    _ => null
+                };
+                if (result is null) Assert.Fail("Test data might be broken!");
+            }
+
+            // Assert
+            Assert.Throws<InvalidNameException>(Construct);
         }
     }
 }

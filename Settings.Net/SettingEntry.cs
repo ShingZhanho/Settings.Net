@@ -36,7 +36,7 @@ namespace Settings.Net
             Value = value;
         }
 
-        public SettingEntry(JToken jToken)
+        internal SettingEntry(JToken jToken)
         {
             InternalEnsureJsonState(jToken);
 

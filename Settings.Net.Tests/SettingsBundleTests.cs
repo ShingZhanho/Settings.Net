@@ -32,7 +32,7 @@ namespace Settings.Net.Tests
         public void Ctor_SettingsFilePath_Successful()
         {
             // Act
-            var result = new SettingsBundle(TestData.SettingsBundleData.NormalJsonFilePath);
+            var result = new SettingsBundle(TestData.SettingsBundle.NormalJsonFilePath);
             
             // Assert
             Assert.That(result, Is.Not.Null);
@@ -42,7 +42,7 @@ namespace Settings.Net.Tests
          Description("Construct a SettingsBundle with invalid JSON data. JsonReaderException should be thrown.")]
         public void Ctor_InvalidJsonString_JsonReaderException() =>
             Assert.Throws<JsonReaderException>(
-                () => _ = new SettingsBundle(TestData.SettingsBundleData.InvalidJsonFilePath));
+                () => _ = new SettingsBundle(TestData.SettingsBundle.InvalidJsonFilePath));
 
         [Test,
          Description("Construct a SettingsBundle with empty file path. Expected ArgumentException.")]
@@ -58,20 +58,20 @@ namespace Settings.Net.Tests
          Description("Construct from JSON that does not contain a 'metadata' key.")]
         public void Ctor_JsonWithoutMetadata_InvalidEntryTokenException() =>
             Assert.Throws<InvalidEntryTokenException>(() =>
-                _ = new SettingsBundle(TestData.SettingsBundleData.JsonWithoutMetadataFilePath));
+                _ = new SettingsBundle(TestData.SettingsBundle.JsonWithoutMetadataFilePath));
         
         [Test,
          Description("Construct from JSON that does not contain a 'data' key.")]
         public void Ctor_JsonWithoutData_InvalidEntryTokenException() =>
             Assert.Throws<InvalidEntryTokenException>(() =>
-                _ = new SettingsBundle(TestData.SettingsBundleData.JsonWithoutDataFilePath));
+                _ = new SettingsBundle(TestData.SettingsBundle.JsonWithoutDataFilePath));
 
         [Test,
          Description("Construct from valid JToken.")]
         public void Ctor_NormalJToken_Successful()
         {
             // Arrange
-            var json = File.ReadAllText(TestData.SettingsBundleData.NormalJsonFilePath);
+            var json = File.ReadAllText(TestData.SettingsBundle.NormalJsonFilePath);
             var token = JToken.Parse(json);
             
             // Act

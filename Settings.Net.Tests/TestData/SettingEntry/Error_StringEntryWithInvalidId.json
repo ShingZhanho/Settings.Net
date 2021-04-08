@@ -1,0 +1,6 @@
+{
+    "this is an invalid.id": {
+        "type": "String",
+        "value": "This should cause an InvalidNameException."
+    }
+}
