@@ -135,19 +135,11 @@ namespace Settings.Net
 
         private static void InternalEnsureJsonState(JToken jToken)
         {
-            // Check ID
-            string id;
-            try
-            {
-                id = ((JObject) jToken).Properties().ToList()[0].Name;
-                if (!IdIsValid(id))
-                    throw new InvalidNameException(id,
-                        $"The ID '{id}' is invalid. These characters are illegal: '{GetInvalidIdCharsInString(id)}'");
-            }
-            catch (NullReferenceException)
-            {
-                throw new InvalidEntryTokenException(nameof(Id), "The ID key could not be found in the JSON.");
-            }
+            // Get ID
+            var id = ((JObject) jToken).Properties().ToList()[0].Name;
+            if (!IdIsValid(id))
+                throw new InvalidNameException(id,
+                    $"The ID '{id}' is invalid. These characters are illegal: '{GetInvalidIdCharsInString(id)}'");
 
             // Check entry type
             var typeDictionary = new Dictionary<Type, EntryType>
