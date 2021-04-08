@@ -53,7 +53,8 @@ namespace Settings.Net.Tests
             }
         }
         
-        [TestCaseSource(nameof(InvalidIdTestCases))]
+        [TestCaseSource(nameof(InvalidIdTestCases)),
+         Description("Attempts to initialize a new entry with invalid ID, InvalidNameException is expected.")]
         public void Ctor_InvalidIdJsonFile_InvalidNameException(string jsonFile)
         {
             // Arrange
@@ -78,5 +79,12 @@ namespace Settings.Net.Tests
             // Assert
             Assert.Throws<InvalidNameException>(Construct);
         }
+
+        [Test]
+        public void Ctor_JsonEntryWithoutTypeKey_InvalidEntryTokenException() =>
+            Assert.Throws<InvalidEntryTokenException>(() =>
+                _ = new SettingEntry<string>(
+                    JToken.Parse(
+                        File.ReadAllText(TestData.SettingEntry.StringEntryWithoutTypeKeyJsonPath))));
     }
 }

@@ -51,6 +51,9 @@
       <None Update="TestData\SettingEntry\Error_StringEntryWithInvalidId.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\SettingEntry\Error_StringEntryWithoutTypeKey.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

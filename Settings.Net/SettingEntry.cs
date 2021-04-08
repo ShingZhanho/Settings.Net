@@ -182,7 +182,7 @@ namespace Settings.Net
             }
             catch (NullReferenceException)
             {
-                throw new InvalidEntryTokenException(nameof(Value), "The Contents / Value key could not be found.");
+                throw new InvalidEntryTokenException(nameof(Value), "The value key could not be found.");
             }
         }
     }

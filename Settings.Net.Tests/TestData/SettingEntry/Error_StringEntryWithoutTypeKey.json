@@ -1,0 +1,6 @@
+{
+  "stringEntryWithoutTypeKey": {
+    "value": "hello world",
+    "desc": "This is an string entry without a type key. Initializing a new object from this json will cause an InvalidEntryTokenException."
+  }
+}
