@@ -52,14 +52,16 @@ namespace Settings.Net
                 var subId = ((JObject) subItem).Properties().ToList()[0].Name;
                 // If the item is a group
                 if (subItem[subId]!["type"]!.ToString() == EntryType.Group.ToString())
-                    valueList.Add(new SettingsGroup(subItem){Parent = this});
+                {
+                    valueList.Add(new SettingsGroup(subItem) {Parent = this});
+                    continue;
+                }
                 // If the item is not a group
                 valueList.Add(subItem[subId]!["type"]!.ToString() switch
                 {
                     nameof(EntryType.String) => new SettingEntry<string>(subItem){Parent = this},
                     nameof(EntryType.Int) => new SettingEntry<int>(subItem){Parent = this},
                     nameof(EntryType.Bool) => new SettingEntry<bool>(subItem){Parent = this},
-                    nameof(EntryType.Group) => new SettingsGroup(subItem){Parent = this},
                     _ => throw new ArgumentOutOfRangeException(null, "Unknown Type.")
                 });
             }

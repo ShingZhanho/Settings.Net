@@ -70,12 +70,12 @@ namespace Settings.Net
         {
             get
             {
-                if (Parent == null) return null;
-                var rootGroup = this.Parent;
+                if (Parent is null) return null;
+                var rootGroup = Parent;
                 while (!rootGroup.IsRoot)
                 {
-                    if (rootGroup.Parent == null) return null;
-                    rootGroup = Parent;
+                    if (rootGroup.Parent is null) return null;
+                    rootGroup = rootGroup.Parent;
                 }
                 return rootGroup;
             }
