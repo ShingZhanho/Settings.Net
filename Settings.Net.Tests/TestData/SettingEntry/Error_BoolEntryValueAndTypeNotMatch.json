@@ -1,0 +1,7 @@
+﻿{
+  "bool-entry": {
+    "desc": "This is a bool entry with string value.",
+    "type": "Bool",
+    "value": "this.is.the.value"
+  }
+}

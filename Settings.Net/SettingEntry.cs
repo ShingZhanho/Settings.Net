@@ -164,20 +164,20 @@ namespace Settings.Net
             }
 
             // Check entry value
-            var tokenTypeDictionary = new Dictionary<Type, JTokenType>
+            var tokenTypeDict = new Dictionary<Type, JTokenType>
             {
                 {typeof(string), JTokenType.String}, {typeof(int), JTokenType.Integer},
                 {typeof(bool), JTokenType.Boolean}
             };
             try
             {
-                if (jToken[id]!["value"]!.Type != tokenTypeDictionary[typeof(TValue)] &&
+                if (jToken[id]!["value"]!.Type != tokenTypeDict[typeof(TValue)] &&
                     jToken[id]!["value"]!.Type != JTokenType.Null)
                 {
                     throw new InvalidEntryValueException(
-                        $"{tokenTypeDictionary[typeof(TValue)]}' or '{JTokenType.Null}",
+                        $"{tokenTypeDict[typeof(TValue)]}' or '{JTokenType.Null}",
                         jToken[id]!["value"]!.Type.ToString(),
-                        "The content's type does not match the given type in Type key.");
+                        "The value's type does not match the given type in Type key.");
                 }
             }
             catch (NullReferenceException)

@@ -57,6 +57,12 @@
       <None Update="TestData\SettingEntry\NormalIntEntry.json">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="TestData\SettingEntry\Error_BoolEntryValueAndTypeNotMatch.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="TestData\SettingEntry\Error_StringEntryWithoutValueKey.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>

@@ -10,6 +10,20 @@ namespace Settings.Net.Tests
 {
     public class SettingEntryTests
     {
+        [Test,
+         Description("Calling a SettingEntry's indexer always gets null.")]
+        public void Indexer_AlwaysNull()
+        {
+            // Arrange
+            var entry = new SettingEntry<int>(JToken.Parse(File.ReadAllText(TestData.SettingEntry.NormalIntEntryJsonPath)));
+            
+            // Act
+            var results = entry["something"];
+            
+            // Assert
+            Assert.That(results, Is.Null);
+        }
+
         [TestCase("stringEntry", "value", "This is a string entry."),
          TestCase("intEntry", 689),
          TestCase("boolEntry", false, "This is a bool entry.")]
@@ -95,5 +109,21 @@ namespace Settings.Net.Tests
                 _ = new SettingEntry<string>(
                     JToken.Parse(
                         File.ReadAllText(TestData.SettingEntry.NormalIntEntryJsonPath))));
+
+        [Test,
+         Description("Parse a bool entry with string value. InvalidEntryValueException is expected.")]
+        public void Ctor_ValueAndTypeNotMatch_InvalidEntryValueException() =>
+            Assert.Throws<InvalidEntryValueException>(() =>
+                _ = new SettingEntry<bool>(
+                    JToken.Parse(
+                        File.ReadAllText(TestData.SettingEntry.BoolEntryValueAndTypeNotMatchJsonPath))));
+
+        [Test,
+         Description("Parse a string entry without value key, InvalidEntryTokenException is expected.")]
+        public void Ctor_JsonEntryWithoutValueKey_InvalidEntryTokenException() =>
+            Assert.Throws<InvalidEntryTokenException>(() =>
+                _ = new SettingEntry<string>(
+                    JToken.Parse(
+                        File.ReadAllText(TestData.SettingEntry.StringEntryWithoutValueKeyJsonPath))));
     }
 }

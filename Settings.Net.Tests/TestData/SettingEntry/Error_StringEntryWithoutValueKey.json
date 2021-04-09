@@ -1,0 +1,6 @@
+﻿{
+  "string-without-value": {
+    "type": "String",
+    "desc": "This is an entry without a value key."
+  }
+}
