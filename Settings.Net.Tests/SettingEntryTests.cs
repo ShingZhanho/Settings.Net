@@ -155,5 +155,20 @@ namespace Settings.Net.Tests
             Assert.That(rootOfEntry, Is.Not.Null);
             Assert.That(rootOfEntry, Is.EqualTo(root));
         }
+        
+        [Test,
+         Description("Gets the root of an entry which is not added to a root. Null is returned.")]
+        public void Root_NoRootAvailable_Null()
+        {
+            // Arrange
+            var root = new SettingsGroup(JToken.Parse(File.ReadAllText(TestData.SettingEntry.NormalNestedEntry)), false);
+            var entry = root["second-level-group"]["string-entry"] as SettingEntry<string>;
+            
+            // Act
+            var rootOfEntry = entry!.Root;
+            
+            // Assert
+            Assert.That(rootOfEntry, Is.Null);
+        }
     }
 }
