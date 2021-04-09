@@ -22,6 +22,8 @@ namespace Settings.Net.Tests
             public static string BoolEntryValueAndTypeNotMatchJsonPath => Path.Combine(SettingEntryDataFolder, "Error_BoolEntryValueAndTypeNotMatch.json");
             
             public static string StringEntryWithoutValueKeyJsonPath => Path.Combine(SettingEntryDataFolder, "Error_StringEntryWithoutValueKey.json");
+            
+            public static string NormalNestedEntry => Path.Combine(SettingEntryDataFolder, "NormalNestedEntry.json");
         }
     }
 }

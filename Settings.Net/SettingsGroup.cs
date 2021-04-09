@@ -107,7 +107,7 @@ namespace Settings.Net
                 var rootGroup = this;
                 while (!rootGroup.IsRoot)
                 {
-                    if (rootGroup.Parent == null) return null;
+                    if (rootGroup.Parent is null) return null;
                     rootGroup = rootGroup.Parent;
                 }
                 return rootGroup;

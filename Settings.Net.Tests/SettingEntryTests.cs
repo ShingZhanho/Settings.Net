@@ -125,5 +125,35 @@ namespace Settings.Net.Tests
                 _ = new SettingEntry<string>(
                     JToken.Parse(
                         File.ReadAllText(TestData.SettingEntry.StringEntryWithoutValueKeyJsonPath))));
+
+        [Test,
+         Description("Gets the root of an orphan entry, null should be returned.")]
+        public void Root_OrphanEntry_Null()
+        {
+            // Arrange
+            var entry = new SettingEntry<string>("OrphanEntry", "...");
+            
+            // Act
+            var root = entry.Root;
+            
+            // Assert
+            Assert.That(root, Is.Null);
+        }
+
+        [Test,
+         Description("Gets the root of an entry, the correct root group should be returned.")]
+        public void Root_GetsTheCorrectRootOfTheCurrentEntry()
+        {
+            // Arrange
+            var root = new SettingsGroup(JToken.Parse(File.ReadAllText(TestData.SettingEntry.NormalNestedEntry)), true);
+            var entry = root["second-level-group"]["string-entry"] as SettingEntry<string>;
+            
+            // Act
+            var rootOfEntry = entry!.Root;
+            
+            // Assert
+            Assert.That(rootOfEntry, Is.Not.Null);
+            Assert.That(rootOfEntry, Is.EqualTo(root));
+        }
     }
 }

@@ -1,0 +1,21 @@
+﻿{
+  "top-level-group": {
+    "type": "Group",
+    "contents": [
+      {
+        "second-level-group": {
+          "type": "Group",
+          "contents": [
+            {
+              "string-entry": {
+                "type": "String",
+                "desc": "This is a group with  path 'top-level-group.second-level-group.string-entry'. Its root should be 'top-level-group'.",
+                "value": "..."
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+}
