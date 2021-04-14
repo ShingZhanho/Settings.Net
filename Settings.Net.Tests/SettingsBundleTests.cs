@@ -11,6 +11,7 @@ using Settings.Net.Exceptions;
 
 namespace Settings.Net.Tests
 {
+    [TestFixture]
     public class SettingsBundleTests
     {
         [TestCase("description"),

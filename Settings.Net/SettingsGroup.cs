@@ -226,12 +226,12 @@ namespace Settings.Net
         {
             try
             {
-                var entryToGet = this[entryId];
-                return IndexOf(entryToGet);
+                return IndexOf(this[entryId]);
             }
             catch (ArgumentOutOfRangeException e)
             {
-                throw new ArgumentException("The specified entry could not be found under this group.", nameof(entryId),
+                throw new ArgumentException("The specified entry could not be found under this group.",
+                    nameof(entryId),
                     e);
             }
         }

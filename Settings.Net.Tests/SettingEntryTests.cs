@@ -8,6 +8,7 @@ using Settings.Net.Exceptions;
 
 namespace Settings.Net.Tests
 {
+    [TestFixture]
     public class SettingEntryTests
     {
         [Test,
